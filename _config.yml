@@ -16,7 +16,7 @@ minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Harnasch.com"
+title                    : "harnasch.com"
 title_separator          : "-"
 name                     : "Raul Harnasch"
 description              : "Home Automation, Programming & Random Segues"

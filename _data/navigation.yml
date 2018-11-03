@@ -1,7 +1,9 @@
 # main links
 main:
-   - title: "About"
-     url: https://raulium.github.io/about/
+   - title: "about"
+     url: /about
+   - title: "projects"
+     url: /projects
   # - title: "Sample Posts"
   #   url: /year-archive/
   # - title: "Sample Collections"
