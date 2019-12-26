@@ -1,1 +1,4 @@
-theme: jekyll-theme-minimal
+theme:		jekyll-theme-minimal
+title:		harnasch.com
+description:	Home Automation, Programming & Random Segues
+show_downloads:	false
