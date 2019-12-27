@@ -1,0 +1,442 @@
+[
+  {
+    "Platform": "PC",
+    "Title": "911 Operator",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Anno 2070",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Assasin's Creed",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Assasin's Creed II",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Assasin's Creed III",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Assasin's Creed: Revelations",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Basement",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Beholder",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Bioshock 2",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Circuits",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Containment Protocol",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Dead Space",
+    "Status": "Deprecated"
+  },
+  {
+    "Platform": "PC",
+    "Title": "DeadCore",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "Switch",
+    "Title": "Death Squared",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Deus Ex: Human Revolution",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Dishonored",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Don't Starve",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Dragon Age Origins",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Duskers",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Event[0]",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Final Fantasy XIII",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Final Fantasy XIII-2",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Firewatch",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Hack 'n' Slash",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Hacknet",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Hollow Knight",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS4",
+    "Title": "Horizon Zero Dawn",
+    "Status": "In Progress"
+  },
+  {
+    "Platform": "PC",
+    "Title": "House Flipper",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Infamous",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Infamous 2",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Injustice",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "J.U.L.I.A.: Among the Stars",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS4",
+    "Title": "Lego Dimensions",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Lego Indiana Jones",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS4",
+    "Title": "Lego Jurassic World",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS4",
+    "Title": "Lego Star Wars: The Force Awakens",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Little Big Planet",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Little Big Planet 2",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Mainlining",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Mass effect 2",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Mini Metro",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "Switch",
+    "Title": "New Super Mario Bros. U Deluxe",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS4",
+    "Title": "No Man's Sky",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Not The Robots",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Offworld Trading Company",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Opus Magnum",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Opus: The Day We Found Earth",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Orwell",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Papers, Please",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Planetary Annihilation",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "3DS",
+    "Title": "Pokemon Moon",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "Switch",
+    "Title": "Pokemon Shield",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "Switch",
+    "Title": "Pokemon Sword",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "3DS",
+    "Title": "Pokemon Y",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Portal",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Portal 2",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Prison Architect",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Ratchet & Clank Future: A Crack in Time",
+    "Status": "UNK"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Ratchet & Clank Future: Tools of Destruction",
+    "Status": "UNK"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Ratchet & Clank: All 4 One",
+    "Status": "UNK"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Reigns: Her Majesty",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Return of the Obra Dinn",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Saint's Row: The Third",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Singularity",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Skyrim",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Star Trek Online",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS4",
+    "Title": "Star Wars Jedi: Fallen Order",
+    "Status": "In Progress"
+  },
+  {
+    "Platform": "PS4",
+    "Title": "Star Wars: Battlefront",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Star Wars: The Force Unleashed",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Star Wars: The Force Unleashed II",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Stardew Valley",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Starhawk",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Starpoint Gemini 2",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Startup Company",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Syndicate",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Tartarus",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "3DS",
+    "Title": "The Legend of Zelda: A Link Between Worlds",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "Switch",
+    "Title": "The Legend of Zelda: Breath of the Wild",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "The Stanley Parable",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "This is the Police",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "TIS-100",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Torchlight II",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Tron Evolution",
+    "Status": "Complete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Uncharted 2",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "Switch",
+    "Title": "Untitled Goose Game",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PC",
+    "Title": "Viscera Cleanup Detail",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "Wet",
+    "Status": "Incomplete"
+  },
+  {
+    "Platform": "PS3",
+    "Title": "White Knight Chronicles",
+    "Status": "Incomplete"
+  }
+]
