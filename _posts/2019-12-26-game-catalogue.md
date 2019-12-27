@@ -16,11 +16,16 @@ $.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
     }
 
     console.log(counts);
-    
+
     var c = (counts['Complete']/total)*100;
     var p = (counts['In Progress']/total)*100;
     var i = ((counts['Incomplete'] + counts['UNK'])/total)*100;
     var d = (counts['Deprecated']/total)*100;
+
+    console.log(c);
+    console.log(p);
+    console.log(i);
+    console.log(d);
 
     $('#complete').css('width', c + '%');
     $('#progress').css('width', p + '%');
