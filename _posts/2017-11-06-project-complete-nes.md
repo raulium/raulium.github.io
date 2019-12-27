@@ -8,7 +8,7 @@ tags:	Raspberry Pi, RetroPie, gaming
 
 ### Or How I Made My Own NES Classic
 
-You can see my original post [here](http://harnasch.com/diy/project-complete-nes/).
+You can see my original post [here](http://harnasch.com/2018/project-complete-nes/).
 
 So my [Mini NES Raspberry Pi case](https://www.etsy.com/listing/212989839/3d-printed-nes-inspired-raspberry-pi) finally arrived, and I couldn't be more thrilled with it:
 
