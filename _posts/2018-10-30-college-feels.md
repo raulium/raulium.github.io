@@ -1,5 +1,5 @@
 ---
-layout: posts
+layout: post
 title:  "College Feels"
 date:   2018-10-30
 categories: college

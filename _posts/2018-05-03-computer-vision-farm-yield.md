@@ -1,5 +1,5 @@
 ---
-layout: posts
+layout: post
 title:  "Farm Yield Dataset"
 date:   2018-05-03
 categories: data, programming

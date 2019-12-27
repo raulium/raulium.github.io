@@ -1,5 +1,5 @@
 ---
-layout: posts
+layout: post
 title:  "So Long Holiday API, and Thanks For All The Fish"
 date:   2017-10-15
 categories: home_automation

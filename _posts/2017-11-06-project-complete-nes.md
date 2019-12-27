@@ -1,5 +1,5 @@
 ---
-layout: posts
+layout: post
 title:  "Project Complete! My NES Classic"
 date:   2017-11-06
 categories: diy

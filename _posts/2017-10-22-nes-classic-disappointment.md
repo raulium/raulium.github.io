@@ -1,5 +1,5 @@
 ---
-layout: posts
+layout: post
 title:  "NES Classic Disappointment"
 date:   2017-10-22
 categories: diy
