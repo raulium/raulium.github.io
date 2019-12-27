@@ -15,7 +15,8 @@ $.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
         counts[val] = counts[val] ? counts[val] + 1 : 1;
     }
 
-    console.log(counts)
+    console.log(counts);
+    
     var c = (counts['Complete']/total)*100;
     var p = (counts['In Progress']/total)*100;
     var i = ((counts['Incomplete'] + counts['UNK'])/total)*100;
