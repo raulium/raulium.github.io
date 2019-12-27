@@ -15,20 +15,13 @@ $.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
         counts[val] = counts[val] ? counts[val] + 1 : 1;
     }
 
-    console.log(counts);
-
     var c = (counts['Complete']/total)*100;
     var p = (counts['In Progress']/total)*100;
     var i = ((counts['Incomplete'] + counts['UNK'])/total)*100;
     var d = (counts['Deprecated']/total)*100;
 
-    console.log(c);
-    console.log(p);
-    console.log(i);
-    console.log(d);
-
     $('#complete').css('width', c + '%');
-    $('#progress').css('width', p + '%');
+    $('#in-progress').css('width', p + '%');
     $('#incomplete').css('width', i + '%');
     $('#deprecated').css('width', d + '%');
 
@@ -45,7 +38,7 @@ $.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
     <div id="complete" class="progress-bar progress-bar-success" role="progressbar">
         Complete
     </div>
-    <div id="progress" class="progress-bar progress-bar-warning" role="progressbar">
+    <div id="in-progress" class="progress-bar progress-bar-warning" role="progressbar">
     </div>
     <div id="incomplete" class="progress-bar progress-bar-danger" role="progressbar">
         Incomplete
