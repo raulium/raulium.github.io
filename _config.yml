@@ -3,7 +3,7 @@ title_left    : "Raul"
 title_right   : "Harnasch" # default: ""
 description   : "Home Automation, Programming & Random Segues"
 keywords      : ""
-url           : https://raulium.github.io
+url           : https://harnasch.com
 baseurl       : "" # apply repo name like "/myproject" if used under gh-pages branch, else (under master branch) just leave empty/blank
 cover         : "" # image uri like logo/cover image for site seo
 
