@@ -5,33 +5,6 @@ date:   2019-12-26
 categories: gaming
 ---
 
-<script>
-
-$.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
-    var counts = {};
-    var total = json.length;
-    for (var i = 0; i < json.length; i++) {
-        var val = json[i].Status;
-        counts[val] = counts[val] ? counts[val] + 1 : 1;
-    }
-
-    var c = (counts['Complete']/total)*100;
-    var p = (counts['In Progress']/total)*100;
-    var i = ((counts['Incomplete'] + counts['UNK'])/total)*100;
-    var d = (counts['Deprecated']/total)*100;
-
-    $('#complete').css('width', c + '%');
-    $('#in-progress').css('width', p + '%');
-    $('#incomplete').css('width', i + '%');
-    $('#deprecated').css('width', d + '%');
-
-    $('#table').bootstrapTable({
-        data: json
-    });
-});
-
-</script>
-
 ## Progress
 
 <div class="progress">
@@ -75,4 +48,31 @@ $.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
       })
     })
   })
+</script>
+
+<script>
+
+$.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
+    var counts = {};
+    var total = json.length;
+    for (var i = 0; i < json.length; i++) {
+        var val = json[i].Status;
+        counts[val] = counts[val] ? counts[val] + 1 : 1;
+    }
+
+    var c = (counts['Complete']/total)*100;
+    var p = (counts['In Progress']/total)*100;
+    var i = ((counts['Incomplete'] + counts['UNK'])/total)*100;
+    var d = (counts['Deprecated']/total)*100;
+
+    $('#complete').css('width', c + '%');
+    $('#in-progress').css('width', p + '%');
+    $('#incomplete').css('width', i + '%');
+    $('#deprecated').css('width', d + '%');
+
+    $('#table').bootstrapTable({
+        data: json
+    });
+});
+
 </script>
