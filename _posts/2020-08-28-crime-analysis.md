@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Understanding Race and Crime in the US"
-date:   2019-12-26
+date:   2020-08-28
 categories: analysis
 ---
 
