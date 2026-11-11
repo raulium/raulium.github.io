@@ -52,7 +52,7 @@ categories: gaming
 
 <script>
 
-$.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
+$.getJSON("{{ site.baseurl }}/assets/data/gamecatalog.json", function(json) {
     var counts = {};
     var total = json.length;
     for (var i = 0; i < json.length; i++) {
@@ -60,19 +60,19 @@ $.getJSON("https://harnasch.com/assets/data/gamecatalog.json", function(json) {
         counts[val] = counts[val] ? counts[val] + 1 : 1;
     }
 
-    var c = (counts['Complete']/total)*100;
-    var p = (counts['In Progress']/total)*100;
-    var i = ((counts['Incomplete'] + counts['UNK'])/total)*100;
-    var d = (counts['Deprecated']/total)*100;
+    function n(k) { return counts[k] || 0; }
+    var c = (n('Complete')/total)*100;
+    var p = (n('In Progress')/total)*100;
+    var i = ((n('Incomplete') + n('UNK'))/total)*100;
+    var d = (n('Deprecated')/total)*100;
 
     $('#complete').css('width', c + '%');
     $('#in-progress').css('width', p + '%');
     $('#incomplete').css('width', i + '%');
     $('#deprecated').css('width', d + '%');
 
-    $('#table').bootstrapTable({
-        data: json
-    });
+    // The table is already initialized by data-toggle="table", so load the rows into it
+    $('#table').bootstrapTable('load', json);
 });
 
 </script>
