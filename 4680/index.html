@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4680 - Life Calendar</title>
+  <link href="https://fonts.googleapis.com/css?family=Codystar|Rokkitt|Ubuntu+Condensed" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="divBody">
+    <a class="home-link" href="/">&larr; harnasch.com</a>
+    <div id="divContent">
+      <h1>4 6 8 0</h1>
+      <h3>- 90 Year Life Calendar -</h3>
+      <p class="blurb">90 years &times; 52 weeks = 4680 weeks. Each square is one week of your life.</p>
+
+      <form id="bday_input">
+        <label for="birthdate">birthdate:</label>
+        <input type="date" id="birthdate" name="birthdate" required>
+        <button type="submit" class="button">set</button>
+      </form>
+
+      <form id="event_input">
+        <div class="row">
+          <label for="ev_start">start:</label>
+          <input type="date" id="ev_start" name="start" required>
+          <label for="ev_end">end:</label>
+          <input type="date" id="ev_end" name="end" required>
+        </div>
+        <div class="row">
+          <label for="ev_label">label:</label>
+          <input type="text" id="ev_label" name="label" placeholder="Something Happened" required>
+          <button type="submit" class="button">add event</button>
+        </div>
+      </form>
+      <div id="dataTools">
+        <label for="file_input" class="button" tabindex="0">import file</label>
+        <input type="file" id="file_input" accept=".csv,.json,text/csv,application/json" hidden>
+        <button type="button" id="btn_export" class="button">export</button>
+        <button type="button" id="btn_template" class="button">blank template</button>
+        <button type="button" id="btn_sample" class="button">sample file</button>
+        <button type="button" id="btn_clear" class="button">clear all</button>
+      </div>
+      <p class="hint">Fill in the template in any spreadsheet app, save it as CSV, then import it. Dates are YYYY-MM-DD.</p>
+      <p id="message" role="status"></p>
+
+      <hr>
+      <table id="myEvents">
+        <thead>
+          <tr><th>Color</th><th>Event</th><th>Dates</th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p id="stats"></p>
+      <hr>
+    </div>
+
+    <div id="canvasWrap">
+      <canvas id="myCanvas"></canvas>
+      <div id="tooltip" hidden></div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+body {
+  font-family: 'Rokkitt', serif;
+  text-align:  center;
+  margin-top:  20px;
+  background:  white;
+  color:       #222;
+}
+h1 {
+  font-family:   'Codystar', cursive;
+  font-size:     64px;
+  margin-bottom: 5px;
+}
+h3 {
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size:   18px;
+  margin-top:  0px;
+  color:       #aaa;
+}
+.blurb {
+  color:     #888;
+  font-size: 15px;
+}
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+form {
+  margin: 14px auto;
+}
+form .row {
+  margin: 6px 0;
+}
+label {
+  margin: 0 4px 0 10px;
+}
+input {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 2px 4px;
+}
+.button {
+  background-color: #ccc;
+  color: black;
+  border: 2px solid #e7e7e7;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 2px 16px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #bbb;
+}
+.remove {
+  border: none;
+  background: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 16px;
+}
+.remove:hover {
+  color: #e6194b;
+}
+#dataTools {
+  margin: 10px 0 4px;
+}
+#dataTools .button {
+  display: inline-block;
+  margin: 4px;
+}
+.hint {
+  color: #999;
+  font-size: 13px;
+  margin: 2px 0 6px;
+}
+#message.ok {
+  color: #3cb44b;
+}
+#message {
+  color: #e6194b;
+  min-height: 1em;
+  margin: 0;
+}
+#stats {
+  color: #666;
+}
+table {
+  margin-left:  auto;
+  margin-right: auto;
+  border-collapse: collapse;
+}
+#myEvents td, #myEvents th {
+  padding: 3px 10px;
+}
+#myEvents .swatch {
+  width: 40px;
+}
+#myEvents .dates {
+  color: #888;
+  font-size: 13px;
+}
+#divBody {
+  padding: 30px 16px;
+}
+#divContent {
+  margin: 0 auto;
+  max-width: 700px;
+  text-align: center;
+}
+#canvasWrap {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+#myCanvas {
+  max-width: 100%;
+  height: auto;
+}
+#tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  transform: translate(-50%, -130%);
+}
+
+.home-link {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  color: #999;
+  text-decoration: none;
+}
+.home-link:hover {
+  color: #222;
+}
