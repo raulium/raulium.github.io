@@ -24,6 +24,11 @@ categories: gaming
 
 <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
 <link href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css" rel="stylesheet">
+<style>
+  /* Site CSS adds margin-top to tables; bootstrap-table ignores it when sizing the fixed header,
+     so the scrolling body overflowed and the bottom border drew over the rows. */
+  .bootstrap-table .fixed-table-header table { margin-top: 0; }
+</style>
 
 <table
         id="table"
