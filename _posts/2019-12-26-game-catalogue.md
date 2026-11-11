@@ -71,7 +71,7 @@ $.getJSON("{{ site.baseurl }}/assets/data/gamecatalog.json", function(json) {
     $('#incomplete').css('width', i + '%');
     $('#deprecated').css('width', d + '%');
 
-    // The table is already initialized by data-toggle="table", so load the rows into it
+    /* Table is already initialized by data-toggle="table", so load rows into it. (Use block comments here: the compress layout joins lines.) */
     $('#table').bootstrapTable('load', json);
 });
 
