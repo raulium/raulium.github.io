@@ -27,7 +27,6 @@ categories: gaming
 
 <table
         id="table"
-        data-toggle="table"
         data-toolbar=".toolbar"
         data-sortable="true"
         data-height="500">
@@ -52,6 +51,9 @@ categories: gaming
 
 <script>
 
+/* Wait for the page to be ready, then fetch the list and build the table once.
+   (No data-toggle on the table: auto-setup raced the cached JSON in Safari.) */
+$(function() {
 $.getJSON("{{ site.baseurl }}/assets/data/gamecatalog.json", function(json) {
     var counts = {};
     var total = json.length;
@@ -71,8 +73,9 @@ $.getJSON("{{ site.baseurl }}/assets/data/gamecatalog.json", function(json) {
     $('#incomplete').css('width', i + '%');
     $('#deprecated').css('width', d + '%');
 
-    /* Table is already initialized by data-toggle="table", so load rows into it. (Use block comments here: the compress layout joins lines.) */
-    $('#table').bootstrapTable('load', json);
+    /* Use block comments in this script: the compress layout joins lines. */
+    $('#table').bootstrapTable({ data: json });
+});
 });
 
 </script>
