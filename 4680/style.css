@@ -144,3 +144,46 @@ table {
 .home-link:hover {
   color: #222;
 }
+
+/* Dark mode: follows the browser's light/dark setting. */
+:root {
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #141414;
+    color:      #d8d8d8;
+  }
+  h3, .hint, .remove, .home-link {
+    color: #8c8c8c;
+  }
+  .blurb, #myEvents .dates {
+    color: #999;
+  }
+  #stats {
+    color: #aaa;
+  }
+  .home-link:hover {
+    color: #f0f0f0;
+  }
+  hr {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+  }
+  input {
+    background-color: #1f1f1f;
+    color: #e8e8e8;
+    border-color: #3a3a3a;
+  }
+  .button {
+    background-color: #3a3a3a;
+    color: #f0f0f0;
+    border-color: #4a4a4a;
+  }
+  .button:hover {
+    background-color: #4a4a4a;
+  }
+  #tooltip {
+    background: rgba(255, 255, 255, 0.9);
+    color: #111;
+  }
+}

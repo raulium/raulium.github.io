@@ -15,9 +15,11 @@ var COLORS = ['#e6194b', '#3cb44b', '#ffe119', '#0082c8', '#f58231',
               '#911eb4', '#46f0f0', '#f032e6', '#d2f53c', '#fabebe',
               '#008080', '#e6beff', '#aa6e28', '#fffac8', '#800000',
               '#aaffc3', '#808000', '#ffd8b1', '#000080', '#808080'];
-var LIVED_COLOR = '#bbb';
-var EMPTY_COLOR = 'white';
-var NOW_COLOR = '#222';
+// Grid colors follow the browser's light/dark setting.
+var LIGHT_GRID = { lived: '#bbb', empty: 'white', now: '#222', stroke: '#555', axis: '#aaa' };
+var DARK_GRID  = { lived: '#7a7a7a', empty: '#1c1c1c', now: '#f0f0f0', stroke: '#3c3c3c', axis: '#888' };
+var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+function grid() { return darkQuery && darkQuery.matches ? DARK_GRID : LIGHT_GRID; }
 
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
@@ -88,13 +90,13 @@ function square(i, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, SQ_SIZE, SQ_SIZE);
   ctx.lineWidth = 1;
-  ctx.strokeStyle = '#555';
+  ctx.strokeStyle = grid().stroke;
   ctx.strokeRect(x, y, SQ_SIZE, SQ_SIZE);
 }
 
 function axisLabel(year) {
   ctx.font = '12px Arial';
-  ctx.fillStyle = '#aaa';
+  ctx.fillStyle = grid().axis;
   ctx.textBaseline = 'middle';
   ctx.fillText(String(year), MARGIN + WEEKS_PER_YEAR * STEP + 6,
                MARGIN + (year - 1) * STEP + SQ_SIZE / 2);
@@ -102,11 +104,11 @@ function axisLabel(year) {
 
 // Color for every week: lived weeks are grey, event weeks take the event color.
 function weekColors() {
-  var colors = new Array(TOTAL_WEEKS).fill(EMPTY_COLOR);
+  var colors = new Array(TOTAL_WEEKS).fill(grid().empty);
   if (!state.birthdate) return colors;
 
   var now = weekIndex(new Date());
-  for (var i = 0; i < Math.min(now, TOTAL_WEEKS); i++) colors[i] = LIVED_COLOR;
+  for (var i = 0; i < Math.min(now, TOTAL_WEEKS); i++) colors[i] = grid().lived;
 
   state.events.forEach(function (e) {
     var from = Math.max(0, weekIndex(e.start));
@@ -114,7 +116,7 @@ function weekColors() {
     for (var k = from; k <= to; k++) colors[k] = e.color;
   });
 
-  if (now >= 0 && now < TOTAL_WEEKS) colors[now] = NOW_COLOR;
+  if (now >= 0 && now < TOTAL_WEEKS) colors[now] = grid().now;
   return colors;
 }
 
@@ -434,6 +436,11 @@ function main() {
   document.getElementById('btn_clear').onclick = clearAll;
   canvas.addEventListener('mousemove', onHover);
   canvas.addEventListener('mouseleave', function () { tooltip.hidden = true; });
+  if (darkQuery) {
+    // Redraw when the system switches between light and dark (older Safari only has addListener).
+    if (darkQuery.addEventListener) darkQuery.addEventListener('change', draw);
+    else if (darkQuery.addListener) darkQuery.addListener(draw);
+  }
   setupCanvas();
   render();
 }
