@@ -125,24 +125,49 @@ table {
 #tooltip {
   position: absolute;
   pointer-events: none;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(20, 20, 20, 0.9);
   color: white;
   font-size: 13px;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
   white-space: nowrap;
-  transform: translate(-50%, -130%);
-}
-
-.home-link {
-  display: block;
   text-align: left;
-  font-size: 14px;
-  color: #999;
-  text-decoration: none;
+  transform: translate(-50%, calc(-100% - 14px));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 1;
 }
-.home-link:hover {
-  color: #222;
+#tooltip .tt-head {
+  color: #ccc;
+}
+#tooltip .tt-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  opacity: 0.75;
+}
+#tooltip .tt-row.active {
+  opacity: 1;
+  font-weight: bold;
+}
+#tooltip .tt-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  flex: none;
+}
+#tooltip .tt-dates {
+  color: #aaa;
+  font-weight: normal;
+  font-size: 12px;
+  margin-left: 4px;
+}
+#myEvents tbody tr {
+  transition: background-color 0.15s;
+}
+#myEvents tbody tr.active {
+  background-color: #f2f2f2;
 }
 
 /* Dark mode: follows the browser's light/dark setting. */
@@ -163,9 +188,6 @@ table {
   #stats {
     color: #aaa;
   }
-  .home-link:hover {
-    color: #f0f0f0;
-  }
   hr {
     background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
   }
@@ -183,7 +205,36 @@ table {
     background-color: #4a4a4a;
   }
   #tooltip {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     color: #111;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  }
+  #tooltip .tt-head {
+    color: #555;
+  }
+  #tooltip .tt-dates {
+    color: #777;
+  }
+  #tooltip .tt-swatch {
+    border-color: rgba(0, 0, 0, 0.35);
+  }
+  #myEvents tbody tr.active {
+    background-color: #262626;
+  }
+}
+
+.home-link {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  color: #999;
+  text-decoration: none;
+}
+.home-link:hover {
+  color: #222;
+}
+@media (prefers-color-scheme: dark) {
+  .home-link:hover {
+    color: #f0f0f0;
   }
 }

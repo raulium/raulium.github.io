@@ -10,14 +10,16 @@ var SQ_SIZE = 8;
 var STEP = 12;     // square size + gap
 var MARGIN = 12;   // space around the grid
 var AXIS_W = 30;   // room for year labels on the right
+var LIFT_SCALE = 0.25; // hovered squares grow by 25%
+var LIFT_MS = 160;    // lift animation length
 
 var COLORS = ['#e6194b', '#3cb44b', '#ffe119', '#0082c8', '#f58231',
               '#911eb4', '#46f0f0', '#f032e6', '#d2f53c', '#fabebe',
               '#008080', '#e6beff', '#aa6e28', '#fffac8', '#800000',
               '#aaffc3', '#808000', '#ffd8b1', '#000080', '#808080'];
 // Grid colors follow the browser's light/dark setting.
-var LIGHT_GRID = { lived: '#bbb', empty: 'white', now: '#222', stroke: '#555', axis: '#aaa' };
-var DARK_GRID  = { lived: '#7a7a7a', empty: '#1c1c1c', now: '#f0f0f0', stroke: '#3c3c3c', axis: '#888' };
+var LIGHT_GRID = { lived: '#bbb', empty: 'white', now: '#222', stroke: '#555', axis: '#aaa', shadow: 0.35 };
+var DARK_GRID  = { lived: '#7a7a7a', empty: '#1c1c1c', now: '#f0f0f0', stroke: '#3c3c3c', axis: '#888', shadow: 0.9 };
 var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 function grid() { return darkQuery && darkQuery.matches ? DARK_GRID : LIGHT_GRID; }
 
@@ -84,14 +86,54 @@ function setupCanvas() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-function square(i, color) {
-  var x = MARGIN + (i % WEEKS_PER_YEAR) * STEP + 0.5;
-  var y = MARGIN + Math.floor(i / WEEKS_PER_YEAR) * STEP + 0.5;
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, SQ_SIZE, SQ_SIZE);
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = grid().stroke;
-  ctx.strokeRect(x, y, SQ_SIZE, SQ_SIZE);
+// Fully saturated version of a hex color: same hue, 100% saturation,
+// lightness capped at 50% (the most vivid it can be) so pastels pop.
+function saturate(hex) {
+  var n = parseInt(hex.slice(1), 16);
+  var r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255;
+  var max = Math.max(r, g, b), min = Math.min(r, g, b), h = 0, l = (max + min) / 2;
+  if (max !== min) {
+    var d = max - min;
+    h = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    h *= 60;
+  }
+  return 'hsl(' + Math.round(h) + ', 100%, ' + Math.round(Math.min(l, 0.5) * 100) + '%)';
+}
+
+// cell = { fills: [color] or [topLeft, bottomRight], outline: color or null }
+// t (0..1) is how far the square is "lifted": it grows and casts a shadow.
+function square(i, cell, t) {
+  t = t || 0;
+  var s = SQ_SIZE * (1 + LIFT_SCALE * t);
+  var grow = (s - SQ_SIZE) / 2;
+  var x = MARGIN + (i % WEEKS_PER_YEAR) * STEP + 0.5 - grow;
+  var y = MARGIN + Math.floor(i / WEEKS_PER_YEAR) * STEP + 0.5 - grow - t;
+  ctx.save();
+  if (t > 0) {
+    ctx.shadowColor = 'rgba(0, 0, 0, ' + (grid().shadow * t) + ')';
+    ctx.shadowBlur = 5 * t;
+    ctx.shadowOffsetY = 2 * t;
+  }
+  if (cell.fills.length === 2) {
+    // Split along the bottom-left → top-right diagonal.
+    ctx.fillStyle = cell.fills[0];
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + s, y); ctx.lineTo(x, y + s); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = cell.fills[1];
+    ctx.beginPath(); ctx.moveTo(x + s, y); ctx.lineTo(x + s, y + s); ctx.lineTo(x, y + s); ctx.closePath(); ctx.fill();
+  } else {
+    ctx.fillStyle = cell.fills[0];
+    ctx.fillRect(x, y, s, s);
+  }
+  ctx.shadowColor = 'transparent';
+  if (cell.outline) {
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = cell.outline;
+  } else {
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = grid().stroke;
+  }
+  ctx.strokeRect(x, y, s, s);
+  ctx.restore();
 }
 
 function axisLabel(year) {
@@ -102,30 +144,137 @@ function axisLabel(year) {
                MARGIN + (year - 1) * STEP + SQ_SIZE / 2);
 }
 
-// Color for every week: lived weeks are grey, event weeks take the event color.
-function weekColors() {
-  var colors = new Array(TOTAL_WEEKS).fill(grid().empty);
-  if (!state.birthdate) return colors;
-
-  var now = weekIndex(new Date());
-  for (var i = 0; i < Math.min(now, TOTAL_WEEKS); i++) colors[i] = grid().lived;
-
-  state.events.forEach(function (e) {
-    var from = Math.max(0, weekIndex(e.start));
-    var to = Math.min(TOTAL_WEEKS - 1, weekIndex(e.end));
-    for (var k = from; k <= to; k++) colors[k] = e.color;
-  });
-
-  if (now >= 0 && now < TOTAL_WEEKS) colors[now] = grid().now;
-  return colors;
+// Picks which two of several overlapping events to show in one box.
+//   Top-left: the event that started first.
+//     Tie: the one that ends first, then the one listed first.
+//   Bottom-right: of the others, the one that keeps going longest.
+//     Tie: the one that started most recently, then the one listed last.
+// Three or more at once: only these two are drawn (the tooltip lists all).
+function pickTwo(evs) {
+  var first = evs.slice().sort(function (a, b) {
+    return (a.start - b.start) || (a.end - b.end) || (a.idx - b.idx);
+  })[0];
+  var rest = evs.filter(function (e) { return e !== first; });
+  var last = rest.sort(function (a, b) {
+    return (b.end - a.end) || (b.start - a.start) || (b.idx - a.idx);
+  })[0];
+  return [first, last];
 }
 
+// What to draw in every week. Grey = lived, white (dark grey in dark mode) = not yet.
+// Events lasting several weeks color their weeks; when two overlap, the box is split.
+// Events inside a single week (like a wedding day) take the whole box
+// and get a vivid outline in their own color, even on top of longer events.
+function weekCells() {
+  var cells = [];
+  var now = state.birthdate ? weekIndex(new Date()) : -1;
+  for (var i = 0; i < TOTAL_WEEKS; i++) {
+    // shown: event index for each fill; all: every event touching this week
+    cells.push({ fills: [i < now ? grid().lived : grid().empty], outline: null, shown: [], all: [] });
+  }
+  if (!state.birthdate) return cells;
+
+  var ranges = [], singles = [];
+  state.events.forEach(function (e, idx) {
+    var item = { start: e.start, end: e.end, color: e.color, idx: idx,
+                 from: weekIndex(e.start), to: weekIndex(e.end) };
+    (item.from === item.to ? singles : ranges).push(item);
+    for (var k = Math.max(0, item.from); k <= Math.min(TOTAL_WEEKS - 1, item.to); k++) cells[k].all.push(idx);
+  });
+
+  var byWeek = {};
+  function add(list, item, k) {
+    if (k < 0 || k >= TOTAL_WEEKS) return;
+    (list[k] = list[k] || []).push(item);
+  }
+  ranges.forEach(function (r) {
+    for (var k = Math.max(0, r.from); k <= Math.min(TOTAL_WEEKS - 1, r.to); k++) add(byWeek, r, k);
+  });
+  var singleWeek = {};
+  singles.forEach(function (e) { add(singleWeek, e, e.from); });
+
+  Object.keys(byWeek).forEach(function (k) {
+    var evs = byWeek[k];
+    var shown = evs.length === 1 ? [evs[0]] : pickTwo(evs);
+    cells[k].fills = shown.map(function (e) { return e.color; });
+    cells[k].shown = shown.map(function (e) { return e.idx; });
+  });
+  Object.keys(singleWeek).forEach(function (k) {
+    var evs = singleWeek[k];
+    var shown = evs.length === 1 ? [evs[0]] : pickTwo(evs);
+    cells[k].fills = shown.map(function (e) { return e.color; });
+    cells[k].shown = shown.map(function (e) { return e.idx; });
+    cells[k].outline = saturate(shown[0].color);
+  });
+
+  if (now >= 0 && now < TOTAL_WEEKS) {
+    cells[now].fills = [grid().now];
+    cells[now].outline = null;
+    cells[now].shown = cells[now].shown.slice(0, 1);
+  }
+  return cells;
+}
+
+var cells = [];           // what each week shows, rebuilt on every change
+var lift = new Float32Array(TOTAL_WEEKS); // 0 = flat, 1 = fully lifted
+var hoverIdx = null;      // event whose weeks are lifted
+var animating = false;
+var lastFrame = 0;
+var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  var colors = weekColors();
-  for (var i = 0; i < TOTAL_WEEKS; i++) square(i, colors[i]);
+  ctx.clearRect(0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
+  var lifted = [];
+  for (var i = 0; i < TOTAL_WEEKS; i++) {
+    if (lift[i] > 0) lifted.push(i);
+    else square(i, cells[i]);
+  }
+  // Lifted squares go on top so they overlap their neighbours.
+  lifted.sort(function (a, b) { return lift[a] - lift[b]; });
+  lifted.forEach(function (i) { square(i, cells[i], easeOut(lift[i])); });
   axisLabel(1);
   for (var y = 5; y <= YEARS; y += 5) axisLabel(y);
+}
+
+function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+function inHoveredSpan(i) {
+  return hoverIdx !== null && cells[i].all.indexOf(hoverIdx) !== -1;
+}
+
+// Lift the weeks of event `idx` (or drop them all with null).
+function setHover(idx) {
+  if (idx === undefined) idx = null;
+  if (idx === hoverIdx) return;
+  hoverIdx = idx;
+  document.querySelectorAll('#myEvents tbody tr').forEach(function (tr, n) {
+    tr.classList.toggle('active', n === idx);
+  });
+  if (reduceMotion) {
+    for (var i = 0; i < TOTAL_WEEKS; i++) lift[i] = inHoveredSpan(i) ? 1 : 0;
+    draw();
+    return;
+  }
+  if (!animating) {
+    animating = true;
+    lastFrame = performance.now();
+    requestAnimationFrame(step);
+  }
+}
+
+function step(time) {
+  var delta = Math.min(1, (time - lastFrame) / LIFT_MS);
+  lastFrame = time;
+  var moving = false;
+  for (var i = 0; i < TOTAL_WEEKS; i++) {
+    var target = inHoveredSpan(i) ? 1 : 0;
+    if (lift[i] === target) continue;
+    lift[i] = target > lift[i] ? Math.min(1, lift[i] + delta) : Math.max(0, lift[i] - delta);
+    moving = true;
+  }
+  draw();
+  if (moving) requestAnimationFrame(step);
+  else animating = false;
 }
 
 // ---------- page ----------
@@ -153,13 +302,15 @@ function renderEvents() {
     row.insertCell().textContent = e.label;
     var dates = row.insertCell();
     dates.className = 'dates';
-    dates.textContent = formatDate(e.start) + ' → ' + formatDate(e.end);
+    dates.textContent = eventDates(e);
     var btn = document.createElement('button');
     btn.className = 'remove';
     btn.title = 'Remove event';
     btn.textContent = '×';
     btn.onclick = function () { removeEvent(idx); };
     row.insertCell().appendChild(btn);
+    row.addEventListener('mouseenter', function () { setHover(idx); });
+    row.addEventListener('mouseleave', function () { setHover(null); });
   });
   document.getElementById('myEvents').hidden = state.events.length === 0;
 }
@@ -177,6 +328,9 @@ function renderStats() {
 }
 
 function render() {
+  hoverIdx = null;
+  lift.fill(0);
+  cells = weekCells();
   renderEvents();
   renderStats();
   draw();
@@ -388,25 +542,60 @@ function clearAll() {
   showMessage('Cleared.', true);
 }
 
+function eventDates(e) {
+  var a = formatDate(e.start), b = formatDate(e.end);
+  return a === b ? a : a + ' → ' + b;
+}
+
+function hideTooltip() {
+  tooltip.hidden = true;
+  setHover(null);
+}
+
 function onHover(evt) {
-  if (!state.birthdate) { tooltip.hidden = true; return; }
+  if (!state.birthdate) return hideTooltip();
   var rect = canvas.getBoundingClientRect();
   var scale = rect.width / parseFloat(canvas.style.width);
   var x = (evt.clientX - rect.left) / scale - MARGIN;
   var y = (evt.clientY - rect.top) / scale - MARGIN;
   var col = Math.floor(x / STEP), row = Math.floor(y / STEP);
-  if (x < 0 || y < 0 || col >= WEEKS_PER_YEAR || row >= YEARS) { tooltip.hidden = true; return; }
+  if (x < 0 || y < 0 || col >= WEEKS_PER_YEAR || row >= YEARS) return hideTooltip();
 
   var i = row * WEEKS_PER_YEAR + col;
-  var date = weekToDate(i);
-  var text = 'Age ' + row + ', week ' + (col + 1) + ' · ' + formatDate(date);
-  state.events.forEach(function (e) {
-    if (i >= weekIndex(e.start) && i <= weekIndex(e.end)) text += ' · ' + e.label;
+  var cell = cells[i];
+
+  // In a split box, the half under the cursor decides which event lifts.
+  var lx = x - col * STEP, ly = y - row * STEP;
+  var idx = cell.shown.length === 2 ? cell.shown[lx + ly < SQ_SIZE ? 0 : 1] : cell.shown[0];
+  setHover(idx);
+
+  tooltip.textContent = '';
+  var head = document.createElement('div');
+  head.className = 'tt-head';
+  head.textContent = 'Age ' + row + ', week ' + (col + 1) + ' · ' + formatDate(weekToDate(i));
+  tooltip.appendChild(head);
+  cell.all.forEach(function (n) {
+    var e = state.events[n];
+    var line = document.createElement('div');
+    line.className = 'tt-row' + (n === idx ? ' active' : '');
+    var sw = document.createElement('span');
+    sw.className = 'tt-swatch';
+    sw.style.backgroundColor = e.color;
+    var label = document.createElement('span');
+    label.textContent = e.label;
+    var dates = document.createElement('span');
+    dates.className = 'tt-dates';
+    dates.textContent = eventDates(e);
+    line.append(sw, label, dates);
+    tooltip.appendChild(line);
   });
-  tooltip.textContent = text;
-  tooltip.style.left = (evt.clientX - rect.left) + 'px';
-  tooltip.style.top = (evt.clientY - rect.top) + 'px';
   tooltip.hidden = false;
+  // Centered above the cursor, but kept inside the calendar's edges.
+  var half = tooltip.offsetWidth / 2;
+  var left = evt.clientX - rect.left;
+  left = Math.max(half, Math.min(rect.width - half, left));
+  tooltip.style.left = left + 'px';
+  tooltip.style.top = (evt.clientY - rect.top) + 'px';
 }
 
 function main() {
@@ -435,11 +624,13 @@ function main() {
   };
   document.getElementById('btn_clear').onclick = clearAll;
   canvas.addEventListener('mousemove', onHover);
-  canvas.addEventListener('mouseleave', function () { tooltip.hidden = true; });
+  canvas.addEventListener('mouseleave', hideTooltip);
   if (darkQuery) {
     // Redraw when the system switches between light and dark (older Safari only has addListener).
-    if (darkQuery.addEventListener) darkQuery.addEventListener('change', draw);
-    else if (darkQuery.addListener) darkQuery.addListener(draw);
+    // Cached cells hold colors, so rebuild them too.
+    var redraw = function () { cells = weekCells(); draw(); };
+    if (darkQuery.addEventListener) darkQuery.addEventListener('change', redraw);
+    else if (darkQuery.addListener) darkQuery.addListener(redraw);
   }
   setupCanvas();
   render();
