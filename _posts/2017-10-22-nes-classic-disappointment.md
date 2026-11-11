@@ -7,7 +7,7 @@ tags:	Raspberry Pi, RetroPie, gaming
 ---
 ## It started at 7 AM
 
-I broke down and decided to take a shot at getting the [NES Classic](http://www.nintendo.com/nes-classic/), partly out of nostalgia and partly because I was feeling nerdy.  I was out of country at the time of the [discontinuation announcement](https://www.wired.com/2017/04/nintendo-discontinuing-nes-classic-mistake/), and thought if I was going to get one now would be about the only time.
+I broke down and decided to take a shot at getting the [NES Classic](https://en.wikipedia.org/wiki/NES_Classic_Edition), partly out of nostalgia and partly because I was feeling nerdy.  I was out of country at the time of the [discontinuation announcement](https://www.wired.com/2017/04/nintendo-discontinuing-nes-classic-mistake/), and thought if I was going to get one now would be about the only time.
 
 So I stood in line at a nearby Target with 8 other people, hoping to get a chance at the limited supply.  This happened two more times at Targets in my area (New England) before I threw in the towel.  Queuing for hours at a time is not my kind of thing.
 
