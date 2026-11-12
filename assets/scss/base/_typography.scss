@@ -4,6 +4,8 @@ body {
   //font-feature-settings: "kern", "liga", "pnum";
   font-size: $base-font-size;
   line-height: $base-line-height;
+  /* Overpass Mono merges "ff"/"fi" into ligatures, which look like overlapping letters. */
+  font-variant-ligatures: none;
 }
 
 h1,
