@@ -1,11 +1,13 @@
 ---
 layout: post
-title:  "Understanding Race and Crime in the US"
+title:  "How to Pick Your Own Answer: A Misleading Crime Statistic"
 date:   2020-08-28
 categories: analysis
 ---
 
-*Revised November 2026: shortened, and a few of the original percentages corrected. The conclusion hasn't changed.*
+This post is about how a statistic can be built to give the answer you want. A number can be accurate, sourced and correctly calculated, and still say nothing at all, because the real decision was made earlier, when someone chose what to divide by. The example comes from a 2020 argument about police killings and race, but the lesson applies to any metric.
+
+*Revised November 2026: shortened, retitled to put the method first, and a few of the original percentages corrected. The conclusion hasn't changed.*
 
 ## The claim
 
@@ -65,6 +67,8 @@ The metric also breaks down whenever a category is small. Only 237 white people 
 ## Conclusion
 
 The "risk burden" only favors white people if you choose a slice of arrests where Black people are more than a third of the total. Violent crime happens to be one. Use all arrests and the result reverses. Better yet, compare each group's deaths to the size of that group, which is what the metric was built to avoid.
+
+The general lesson: when a statistic surprises you, look at the denominator first. Then ask why that one was chosen.
 
 ### For anyone checking the math
 
