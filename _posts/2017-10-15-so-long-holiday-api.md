@@ -27,7 +27,7 @@ def holidayDict():
 		return None
 {% endhighlight %}
 
-It's not the most elegant code, but it returns today's holiday as a string (if it is a holiday), or returns `None` if today isn't special.  It does this by reaching out to [Holiday API](holidayapi.com) (a wonderful, simple, RESTful API with an exhaustive list of country holidays worldwide) to ask, "is today a holiday?" Normally, I get a json object back which I can treat like a dictionary:
+It's not the most elegant code, but it returns today's holiday as a string (if it is a holiday), or returns `None` if today isn't special.  It does this by reaching out to [Holiday API](https://holidayapi.com) (a wonderful, simple, RESTful API with an exhaustive list of country holidays worldwide) to ask, "is today a holiday?" Normally, I get a json object back which I can treat like a dictionary:
 
 {% highlight python %}
 {"status":200,"holidays":[]}

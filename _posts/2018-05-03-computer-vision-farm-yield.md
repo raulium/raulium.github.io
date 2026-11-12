@@ -6,7 +6,7 @@ categories: data, programming
 tags:	data mining, python, computer vision
 ---
 ### The Project:
-You can find the [FarmYeild Dataset](https://github.com/raulium/FarmYield-Dataset) on github, or you can clone it directly:
+You can find the [FarmYield Dataset](https://github.com/raulium/FarmYield-Dataset) on github, or you can clone it directly:
 
 `git clone https://github.com/raulium/FarmYield-Dataset.git`
 
@@ -17,7 +17,7 @@ As a final project for my Computer Vision course, I wanted to perform two tasks:
 1. Predict crop yield, given satellite spectral imagery
 2. Classify crop type, given the same
 
-In order to do this, I ended up having to build my own dataset in order to perform my work. I was put in contact with a farmer in Illinois that provided raw crop yeild data collected from his harvest over two years, which I parsed in CSV format.
+In order to do this, I ended up having to build my own dataset in order to perform my work. I was put in contact with a farmer in Illinois that provided raw crop yield data collected from his harvest over two years, which I parsed in CSV format.
 
 The second half missing was the satellite imagery, which was a multistep process...
 
@@ -27,7 +27,7 @@ The second half missing was the satellite imagery, which was a multistep process
 
 Then it was a matter of collating all the datapoints together into the overall dataset.
 
-It's been anonymized, but none of the lat/long data was important anyway for the purposes of classificaiton and crop yield.
+It's been anonymized, but none of the lat/long data was important anyway for the purposes of classification and crop yield.
 
 ### Results
 
