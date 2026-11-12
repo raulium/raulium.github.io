@@ -4,6 +4,7 @@ title:  "Project Complete! My NES Classic"
 date:   2017-11-06
 categories: diy
 tags:	Raspberry Pi, RetroPie, gaming
+kind: Build log
 ---
 
 ### Or How I Made My Own NES Classic

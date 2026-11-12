@@ -3,6 +3,7 @@ layout: post
 title:  "How to Pick Your Own Answer: A Misleading Crime Statistic"
 date:   2020-08-28
 categories: analysis
+kind: Essay
 ---
 
 This post is about how a statistic can be built to give the answer you want. A number can be accurate, sourced and correctly calculated, and still say nothing at all, because the real decision was made earlier, when someone chose what to divide by. The example comes from a 2020 argument about police killings and race, but the lesson applies to any metric.

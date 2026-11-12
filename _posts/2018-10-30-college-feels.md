@@ -3,6 +3,7 @@ layout: post
 title:  "College Feels"
 date:   2018-10-30
 categories: college
+kind: Graph
 ---
 
 My final semester, charted with complete scientific rigor. Fear, as you can see, comes in waves.

@@ -1,22 +1,26 @@
 ---
-layout: page
+layout: default
 title: Curios
 permalink: /curios/
 description: A cabinet of small things I've made.
 ---
-<p class="curios-subtitle">A cabinet of small things I've made.</p>
-
-<div class="curios">
-{% for item in site.data.curios %}
-  <div class="curio">
-    <a class="curio-thumb" href="{{ site.baseurl }}{{ item.url }}" tabindex="-1" aria-hidden="true">
-      {% if item.image %}<img src="{{ site.baseurl }}/assets/images/curios/{{ item.image }}" alt="" loading="lazy">{% else %}<span class="curio-tile">{{ item.tile }}</span>{% endif %}
-    </a>
-    <div class="curio-body">
-      <h2 class="curio-title"><a href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a></h2>
-      <p class="curio-blurb">{{ item.blurb }}</p>
-      <p class="curio-meta">{{ item.year }}{% for link in item.links %} &middot; <a href="{% if link.url contains '://' %}{{ link.url }}{% else %}{{ site.baseurl }}{{ link.url }}{% endif %}">{{ link.label }}</a>{% endfor %}</p>
-    </div>
+{% assign total = site.data.curios | size %}{% assign oldest = site.data.curios | last %}{% assign newest = site.data.curios | first %}
+<section class="intro band">
+  <div class="intro-main">
+    <p class="label"><span>Curios &middot; {{ total }} objects &middot; {{ oldest.date | date: "%Y" }}&ndash;{{ newest.date | date: "%Y" }}</span></p>
+    <h1>A cabinet of small things I've made.</h1>
   </div>
-{% endfor %}
-</div>
+  <p class="intro-side">Things I built, tinkered with, or got curious enough to measure. Newest first.</p>
+</section>
+
+<section class="cabinet" aria-label="Curios">
+  {% for c in site.data.curios %}{% assign n = total | minus: forloop.index0 %}
+  <article class="curio">
+    <a class="curio-mount" href="{{ site.baseurl }}{{ c.url }}" tabindex="-1" aria-hidden="true"><img src="{{ site.baseurl }}/assets/images/curios/{{ c.image }}" alt="" loading="lazy"></a>
+    <p class="card-label"><span>C&middot;{% if n < 10 %}0{% endif %}{{ n }} &middot; {{ c.kind }}</span><span>{% if forloop.first %}<span class="new" data-new-date="{{ c.date | date: '%Y-%m-%d' }}" hidden>&#9679; New</span>{% endif %}{{ c.date | date: "%Y" }}</span></p>
+    <h2><a href="{{ site.baseurl }}{{ c.url }}">{{ c.title }}</a></h2>
+    <p class="curio-blurb">{{ c.blurb }}</p>
+    <p class="curio-links"><a href="{{ site.baseurl }}{{ c.url }}">{{ c.action | default: "Open" }} &rarr;</a>{% for l in c.links %} &middot; <a href="{% if l.url contains '://' %}{{ l.url }}{% else %}{{ site.baseurl }}{{ l.url }}{% endif %}">{{ l.label }} &rarr;</a>{% endfor %}</p>
+  </article>
+  {% endfor %}
+</section>

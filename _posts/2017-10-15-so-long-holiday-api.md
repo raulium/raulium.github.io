@@ -4,6 +4,7 @@ title:  "So Long Holiday API, and Thanks For All The Fish"
 date:   2017-10-15
 categories: home_automation
 tags:	api, python
+kind: Note
 ---
 I woke up this morning later than I expected to, because my alarm didn't go off.  This wasn't really a problem given it is a Sunday, but it was concerning as my computer does this task for me.
 

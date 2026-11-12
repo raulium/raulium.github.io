@@ -3,14 +3,19 @@ layout: compress
 published: true
 ---
 <!DOCTYPE html>
-<html>
+<html lang="en">
   {% include head.html %}
-  <body>
-    <main class="wrapper">
-      {% include header.html %}
+  <body class="{% if page.url == '/' %}is-home{% else %}is-reading{% endif %}">
+    {% include rail.html %}
+    {% if page.url == '/' %}
       {{ content }}
-      {% include footer.html %}
-    </main>
+    {% else %}
+      <div class="wrap">
+        {% include header.html %}
+        {{ content }}
+        {% include footer.html %}
+      </div>
+    {% endif %}
     {% include foot.html %}
   </body>
 </html>
