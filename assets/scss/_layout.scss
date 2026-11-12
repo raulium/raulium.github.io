@@ -292,3 +292,35 @@ hr {
     }
   }
 }
+
+/* ---------- Type refresh: readable body text, monospace accents ---------- */
+
+.logo,
+.navbar,
+.post-meta,
+.post-item,
+.site-footer,
+.curio-meta {
+  font-family: $mono-font-family;
+}
+
+.post-content,
+.page-content {
+  font-size: rem(17);
+  line-height: 1.7;
+
+  p,
+  ul,
+  ol {
+    margin-bottom: 1em;
+  }
+
+  code,
+  pre {
+    font-size: .85em;
+  }
+
+  pre code {
+    font-size: 1em;
+  }
+}
