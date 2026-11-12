@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Year in the Sky of Uranus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: the sky dome is the hero; controls and live readouts sit beside it; the 84-year timeline runs full width below */
+  --bg:#070b14;
+  --panel:#0d1424;
+  --line:#1e2a42;
+  --ink:#e7eef8;
+  --muted:#8d9cb6;
+  --azure:#7fd3e3;
+  --sun:#ffcf6e;
+  --display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 40px;display:grid;gap:20px}
+header{display:grid;gap:6px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,5vw,44px);line-height:1.05;margin:0;text-wrap:balance}
+h1 em{color:var(--azure)}
+.lede{color:var(--muted);margin:0;max-width:65ch}
+.main{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:start}
+.colL{display:grid;gap:20px}
+@media (max-width:820px){.main{grid-template-columns:1fr}.main .colL,.main .side{display:contents}.domeCard{order:1}.status{order:2}.controls{order:3}.tlCard{order:4}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.domeCard{display:grid;gap:10px;justify-items:center}
+#sky{width:100%;max-width:540px;aspect-ratio:1/1;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);justify-content:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:18px;height:0;border-top:2px solid var(--sun)}
+.sw.dash{border-top:2px dashed rgba(255,207,110,.45)}
+.sw.trail{border-top:3px solid rgba(127,211,227,.8)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--sun);box-shadow:0 0 8px var(--sun)}
+.side{display:grid;gap:16px}
+.status{display:grid;gap:10px}
+.chip{justify-self:start;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid}
+.chip.day{color:var(--sun);border-color:rgba(255,207,110,.5);background:rgba(255,207,110,.08)}
+.chip.night{color:#a9b6ff;border-color:rgba(169,182,255,.45);background:rgba(169,182,255,.08)}
+.chip.normal{color:var(--azure);border-color:rgba(127,211,227,.45);background:rgba(127,211,227,.08)}
+.headline{font-family:var(--display);font-size:24px;line-height:1.2;margin:0;text-wrap:balance}
+.sub{color:var(--muted);margin:0;font-size:14px}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:14px}
+dt{color:var(--muted)}
+dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.controls{display:grid;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn,select{font:inherit;font-size:14px;color:var(--ink);background:#15203a;border:1px solid #2b3a5c;border-radius:9px;padding:8px 12px;cursor:pointer}
+.btn:hover,select:hover{border-color:var(--azure)}
+.btn.primary{background:var(--azure);color:#06202a;border-color:var(--azure);font-weight:600;min-width:132px}
+.btn:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+label.lbl{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--muted)}
+label.lbl output{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--azure)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font:inherit;font-size:12.5px;padding:5px 10px;border-radius:999px;background:transparent;color:var(--muted);border:1px solid #2b3a5c;cursor:pointer}
+.chips button[aria-pressed=true]{color:#06202a;background:var(--azure);border-color:var(--azure)}
+.cityLbl{margin:2px 0 -4px;font-size:13px;color:var(--muted)}
+.check{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--muted)}
+.tlCard{display:grid;gap:10px}
+.tlHead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;align-items:baseline}
+.tlHead h2{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
+.tlHead p{margin:0;color:var(--muted);font-size:13px}
+#timeline{width:100%;height:170px;display:block;touch-action:none;cursor:ew-resize}
+.orbitRow{display:flex;gap:14px;align-items:center}
+#orbit{width:132px;height:132px;flex:none}
+.orbitRow p{margin:0;font-size:13px;color:var(--muted)}
+.notes{color:var(--muted);font-size:13px;max-width:75ch;display:grid;gap:6px}
+.notes p{margin:0}
+.notes strong{color:var(--ink);font-weight:500}
+.home-link{justify-self:start;color:var(--muted);text-decoration:none;font-size:13.5px}
+.home-link:hover{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="home-link" href="/">&larr; harnasch.com</a>
+    <h1>A year in the sky of <em>Uranus</em></h1>
+    <p class="lede">Uranus is tipped about 98° on its side, so over its 84-year orbit each pole takes a turn pointing almost straight at the Sun. Pick a spot on the planet and run the year to watch the Sun spiral up, circle overhead without setting, then sink into decades of night.</p>
+  </header>
+
+  <div class="main">
+    <div class="colL">
+    <section class="card domeCard" aria-label="Sky view">
+      <canvas id="sky" role="img" aria-label="Fisheye view of the sky looking straight up, with the Sun and its path across the sky"></canvas>
+      <div class="legend">
+        <span><i class="dot"></i>Sun now</span>
+        <span><i class="sw"></i>Today's path</span>
+        <span><i class="sw dash"></i>Below the horizon</span>
+        <span><i class="sw trail"></i>Recent motion</span>
+      </div>
+    </section>
+    <section class="card tlCard" aria-label="Timeline of one Uranian year">
+    <div class="tlHead">
+      <h2>One Uranian year, 84 Earth years</h2>
+      <p>The band is the Sun's daily range of altitude at your latitude. Above the line it's up, below it's down. Drag to move through time.</p>
+    </div>
+    <canvas id="timeline" role="img" aria-label="Chart of the Sun's highest and lowest daily altitude over 84 years"></canvas>
+  </section>
+    </div>
+
+    <div class="side">
+      <section class="card status" aria-live="polite">
+        <span id="chip" class="chip normal">Day and night</span>
+        <p id="headline" class="headline"></p>
+        <p id="subline" class="sub"></p>
+        <dl>
+          <dt>Date on Earth</dt><dd id="rDate"></dd>
+          <dt>Season</dt><dd id="rSeason"></dd>
+          <dt>Sun altitude now</dt><dd id="rAlt"></dd>
+          <dt>Highest / lowest today</dt><dd id="rRange"></dd>
+          <dt>Sun's declination</dt><dd id="rDec"></dd>
+        </dl>
+      </section>
+
+      <section class="card controls" aria-label="Controls">
+        <div class="row">
+          <button id="play" class="btn primary" type="button">▶ Play the year</button>
+          <select id="speed" aria-label="Playback speed">
+            <option value="0.25">¼ year / sec</option>
+            <option value="1" selected>1 year / sec</option>
+            <option value="4">4 years / sec</option>
+          </select>
+          <button id="today" class="btn" type="button">Jump to today</button>
+        </div>
+        <label class="lbl" for="year">Date <output id="yearOut" for="year"></output></label>
+        <input type="range" id="year" min="0" max="84.02" step="0.01">
+        <label class="lbl" for="lat">Your latitude on Uranus <output id="latOut" for="lat"></output></label>
+        <input type="range" id="lat" min="-90" max="90" step="1">
+        <div class="chips" id="presets" role="group" aria-label="Latitude presets">
+          <button type="button" data-lat="90">North pole</button>
+          <button type="button" data-lat="60">60° N</button>
+          <button type="button" data-lat="30">30° N</button>
+          <button type="button" data-lat="0">Equator</button>
+          <button type="button" data-lat="-45">45° S</button>
+          <button type="button" data-lat="-90">South pole</button>
+        </div>
+        <p class="cityLbl" id="cityLbl">Or stand at the same latitude as a city on Earth</p>
+        <div class="chips" id="cities" role="group" aria-labelledby="cityLbl">
+          <button type="button" data-lat="64" data-city="Reykjavík">Reykjavík 64° N</button>
+          <button type="button" data-lat="52" data-city="London">London 52° N</button>
+          <button type="button" data-lat="41" data-city="New York">New York 41° N</button>
+          <button type="button" data-lat="36" data-city="Tokyo">Tokyo 36° N</button>
+          <button type="button" data-lat="30" data-city="Cairo">Cairo 30° N</button>
+          <button type="button" data-lat="19" data-city="Mumbai">Mumbai 19° N</button>
+          <button type="button" data-lat="1" data-city="Singapore">Singapore 1° N</button>
+          <button type="button" data-lat="-12" data-city="Lima">Lima 12° S</button>
+          <button type="button" data-lat="-26" data-city="Johannesburg">Johannesburg 26° S</button>
+          <button type="button" data-lat="-34" data-city="Sydney">Sydney 34° S</button>
+          <button type="button" data-lat="-55" data-city="Ushuaia">Ushuaia 55° S</button>
+          <button type="button" data-lat="-78" data-city="McMurdo Station">McMurdo 78° S</button>
+        </div>
+        <label class="check" for="spin"><input type="checkbox" id="spin" checked> Spin through each 17-hour day</label>
+        <div class="orbitRow">
+          <canvas id="orbit" role="img" aria-label="Top-down view of Uranus's orbit with its north pole direction"></canvas>
+          <p>Seen from above the Sun. The axis stays fixed in space, so the north pole (marked N) faces the Sun at one solstice and points away 42 years later.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+  <section class="notes">
+    <p><strong>How it's modeled.</strong> Axial tilt 97.77°, a 17.24-hour day, and a circular 84.02-year orbit starting at the northern spring equinox of December 2007. The real orbit is slightly elliptical, so actual solstice and equinox dates differ by a year or two.</p>
+    <p><strong>Which way is up.</strong> The dome is the sky seen lying on your back, so east is on the left. Using the IAU's north pole, Uranus spins backwards, so the Sun rises in the west and sets in the east.</p>
+    <p><strong>Not to scale.</strong> Each spin of the Sun here stands for one Uranian day. A real year holds about 42,700 of them, so the spiral's spacing is hugely stretched. From Uranus the Sun is a tiny, brilliant point about 1/370 as bright as on Earth. There's no solid surface, so picture yourself floating above the clouds.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  const D2R = Math.PI/180, R2D = 180/Math.PI;
+  const EPS = 82.23*D2R;          // max solar declination = 180 - 97.77
+  const YEAR = 84.02;             // Earth years
+  const EQ0 = 2007.93;            // northern spring equinox (Dec 2007)
+  const DAY_H = 17.24;
+  const now = new Date();
+  const TODAY = now.getFullYear() + (now - new Date(now.getFullYear(),0,1)) / (365.25*864e5);
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const state = { t: mod(TODAY-EQ0, YEAR), lat: 45, playing:false, speed:1, spin:!reduce, phase:0.42, trail:[] };
+
+  const $ = id => document.getElementById(id);
+  const sky = $("sky"), orbit = $("orbit"), tl = $("timeline");
+  const yearIn = $("year"), latIn = $("lat"), spinIn = $("spin");
+  spinIn.checked = state.spin;
+
+  function mod(a,n){ return ((a % n) + n) % n; }
+  function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
+  function decl(t){ return Math.asin(Math.sin(EPS)*Math.sin(2*Math.PI*t/YEAR)); }
+  function hourAngle(p){ return 2*Math.PI*(0.5 - p); } // decreasing H: retrograde spin, Sun rises in the west
+  function altaz(phi, dec, H){
+    const s = Math.sin(phi)*Math.sin(dec) + Math.cos(phi)*Math.cos(dec)*Math.cos(H);
+    const alt = Math.asin(clamp(s,-1,1));
+    const az = Math.atan2(-Math.sin(H)*Math.cos(dec), Math.sin(dec)*Math.cos(phi) - Math.cos(dec)*Math.sin(phi)*Math.cos(H));
+    return {alt, az};
+  }
+  function maxAlt(phi,dec){ return 90 - Math.abs(phi-dec)*R2D; }
+  function minAlt(phi,dec){ return Math.abs(phi+dec)*R2D - 90; }
+  function hex(h){ return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16)); }
+  function mix(a,b,f){ const A=hex(a),B=hex(b); return "rgb("+A.map((v,i)=>Math.round(v+(B[i]-v)*f)).join(",")+")"; }
+  function fmtDate(y){ const yr=Math.floor(y); const m=Math.min(11,Math.floor((y-yr)*12)); return MONTHS[m]+" "+yr; }
+  function deg(x,d){ return (x>=0?"+":"−")+Math.abs(x).toFixed(d===undefined?1:d)+"°"; }
+  function latName(l){ return l===0 ? "0° (equator)" : Math.abs(l)+"° "+(l>0?"N":"S"); }
+
+  function setupCanvas(c, w, h){
+    const dpr = Math.min(window.devicePixelRatio||1, 2.5);
+    c.width = Math.round(w*dpr); c.height = Math.round(h*dpr);
+    const ctx = c.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); return ctx;
+  }
+
+  // seeded stars
+  let seed = 7; const rnd = () => (seed = (seed*16807) % 2147483647) / 2147483647;
+  const stars = Array.from({length:170}, () => { const r=Math.sqrt(rnd()), a=rnd()*Math.PI*2; return {x:r*Math.cos(a), y:r*Math.sin(a), s:0.4+rnd()*1.1, b:0.35+rnd()*0.65}; });
+
+  let skyCtx, skyW=0, orbCtx, tlCtx, tlW=0, tlH=170, bandCache=null, bandLat=null;
+
+  function resize(){
+    skyW = sky.clientWidth; skyCtx = setupCanvas(sky, skyW, skyW);
+    orbCtx = setupCanvas(orbit, 132, 132);
+    tlW = tl.clientWidth; tlCtx = setupCanvas(tl, tlW, tlH);
+    bandCache = null;
+  }
+
+  // ---------- sky dome ----------
+  function drawSky(){
+    const ctx = skyCtx, W = skyW, cx = W/2, cy = W/2;
+    const R0 = W/2/1.36, MINALT = -25, Rg = R0*(90-MINALT)/90;
+    const phi = state.lat*D2R, dec = decl(state.t);
+    const sun = altaz(phi, dec, hourAngle(state.phase));
+    const sAlt = sun.alt*R2D;
+    const d = clamp((sAlt+8)/16, 0, 1);
+    const P = (alt, az) => { const r = R0*(90-alt)/90; return [cx - r*Math.sin(az), cy - r*Math.cos(az)]; };
+
+    ctx.clearRect(0,0,W,W);
+    // ground ring (below horizon)
+    ctx.beginPath(); ctx.arc(cx,cy,Rg,0,Math.PI*2); ctx.fillStyle = "#0a101d"; ctx.fill();
+    ctx.strokeStyle = "#1e2a42"; ctx.lineWidth = 1; ctx.stroke();
+    // sky dome
+    const g = ctx.createRadialGradient(cx,cy,0,cx,cy,R0);
+    g.addColorStop(0, mix("#081028","#2f86a6",d));
+    g.addColorStop(1, mix("#101b3c","#9fe2ec",d));
+    ctx.beginPath(); ctx.arc(cx,cy,R0,0,Math.PI*2); ctx.fillStyle = g; ctx.fill();
+    // stars
+    if (d < 1){
+      for (const s of stars){ ctx.globalAlpha = s.b*(1-d); ctx.fillStyle="#dfe8ff"; ctx.beginPath(); ctx.arc(cx+s.x*R0*0.98, cy+s.y*R0*0.98, s.s, 0, Math.PI*2); ctx.fill(); }
+      ctx.globalAlpha = 1;
+    }
+    // altitude rings
+    ctx.strokeStyle = d>0.5 ? "rgba(10,40,60,.22)" : "rgba(160,190,230,.14)"; ctx.lineWidth = 1;
+    for (const a of [30,60]){ ctx.beginPath(); ctx.arc(cx,cy,R0*(90-a)/90,0,Math.PI*2); ctx.stroke(); }
+    ctx.beginPath(); ctx.moveTo(cx-R0,cy); ctx.lineTo(cx+R0,cy); ctx.moveTo(cx,cy-R0); ctx.lineTo(cx,cy+R0); ctx.stroke();
+    // horizon line
+    ctx.beginPath(); ctx.arc(cx,cy,R0,0,Math.PI*2); ctx.strokeStyle = "rgba(127,211,227,.55)"; ctx.lineWidth = 1.5; ctx.stroke();
+
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,Rg-1,0,Math.PI*2); ctx.clip();
+    // today's full path
+    const N = 360; let prev = null;
+    for (let i=0;i<=N;i++){
+      const q = altaz(phi, dec, 2*Math.PI*i/N), a = q.alt*R2D;
+      const p = a >= MINALT ? {xy:P(a,q.az), up:a>=0} : null;
+      if (prev && p){
+        ctx.beginPath(); ctx.moveTo(prev.xy[0],prev.xy[1]); ctx.lineTo(p.xy[0],p.xy[1]);
+        if (p.up && prev.up){ ctx.setLineDash([]); ctx.strokeStyle = d>0.5 ? "rgba(120,70,0,.75)" : "rgba(255,207,110,.85)"; ctx.lineWidth = 2; }
+        else { ctx.setLineDash([4,4]); ctx.strokeStyle = "rgba(255,207,110,.4)"; ctx.lineWidth = 1.5; }
+        ctx.stroke();
+      }
+      prev = p;
+    }
+    ctx.setLineDash([]);
+    // trail
+    const tr = state.trail, n = tr.length;
+    for (let i=1;i<n;i++){
+      const a = tr[i-1], b = tr[i];
+      if (a.alt < MINALT || b.alt < MINALT) continue;
+      const pa = P(a.alt,a.az), pb = P(b.alt,b.az);
+      if (Math.hypot(pa[0]-pb[0], pa[1]-pb[1]) > W*0.25) continue;
+      ctx.globalAlpha = 0.08 + 0.8*(i/n);
+      ctx.strokeStyle = d>0.5 ? "#0d4f66" : "#7fd3e3"; ctx.lineWidth = 2.2;
+      ctx.beginPath(); ctx.moveTo(pa[0],pa[1]); ctx.lineTo(pb[0],pb[1]); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    // sun
+    if (sAlt >= MINALT){
+      const [sx,sy] = P(sAlt, sun.az), up = sAlt >= 0;
+      const glow = ctx.createRadialGradient(sx,sy,0,sx,sy,up?26:16);
+      glow.addColorStop(0, up ? "rgba(255,240,200,1)" : "rgba(255,207,110,.6)");
+      glow.addColorStop(0.25, up ? "rgba(255,207,110,.85)" : "rgba(255,207,110,.25)");
+      glow.addColorStop(1, "rgba(255,207,110,0)");
+      ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(sx,sy,up?26:16,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = up ? "#fff6dc" : "rgba(255,230,170,.7)"; ctx.beginPath(); ctx.arc(sx,sy,up?5:3.5,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+
+    // labels
+    ctx.font = "500 13px 'IBM Plex Sans', system-ui, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const rl = (R0+Rg)/2;
+    if (Math.abs(state.lat) < 89.5){
+      ctx.fillStyle = "#c9d6ea";
+      ctx.fillText("N", cx, cy-rl); ctx.fillText("S", cx, cy+rl); ctx.fillText("E", cx-rl, cy); ctx.fillText("W", cx+rl, cy);
+    } else {
+      ctx.fillStyle = "#8d9cb6"; ctx.font = "12px 'IBM Plex Sans', system-ui, sans-serif";
+      ctx.fillText(state.lat>0 ? "every direction is south" : "every direction is north", cx, cy+rl);
+    }
+    ctx.fillStyle = d>0.5 ? "rgba(8,40,55,.65)" : "rgba(170,195,230,.55)"; ctx.font = "11px 'IBM Plex Mono', monospace";
+    ctx.fillText("zenith", cx, cy+12);
+    ctx.fillText("60°", cx+R0*30/90+12, cy-8); ctx.fillText("30°", cx+R0*60/90+12, cy-8);
+    ctx.fillStyle = "rgba(141,156,182,.8)"; ctx.fillText("horizon", cx+R0*0.72, cy+R0*0.72+12);
+    return sun;
+  }
+
+  // ---------- orbit inset ----------
+  function drawOrbit(){
+    const ctx = orbCtx, S = 132, c = S/2, r = 46;
+    ctx.clearRect(0,0,S,S);
+    ctx.beginPath(); ctx.arc(c,c,r,0,Math.PI*2); ctx.strokeStyle = "#2b3a5c"; ctx.lineWidth = 1; ctx.stroke();
+    const sg = ctx.createRadialGradient(c,c,0,c,c,10); sg.addColorStop(0,"#fff3cf"); sg.addColorStop(1,"rgba(255,207,110,0)");
+    ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(c,c,10,0,Math.PI*2); ctx.fill();
+    const L = 2*Math.PI*state.t/YEAR;
+    const px = c + r*Math.cos(L), py = c - r*Math.sin(L);
+    // planet, lit side toward Sun
+    const ang = Math.atan2(c-py, c-px);
+    ctx.beginPath(); ctx.arc(px,py,7,0,Math.PI*2); ctx.fillStyle = "#1d3a4a"; ctx.fill();
+    ctx.beginPath(); ctx.arc(px,py,7,ang-Math.PI/2,ang+Math.PI/2); ctx.closePath(); ctx.fillStyle = "#7fd3e3"; ctx.fill();
+    // axis: north pole fixed, pointing screen-down (toward Sun at northern solstice)
+    ctx.strokeStyle = "#ffcf6e"; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(px, py-13); ctx.lineTo(px, py+13); ctx.stroke();
+    ctx.fillStyle = "#ffcf6e"; ctx.beginPath(); ctx.arc(px, py+13, 2.4, 0, Math.PI*2); ctx.fill();
+    ctx.font = "600 10px 'IBM Plex Sans', sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("N", px+8, py+16);
+  }
+
+  // ---------- timeline ----------
+  const TL = { l:34, r:10, t:22, b:22 };
+  function tx(t){ return TL.l + (t/YEAR)*(tlW-TL.l-TL.r); }
+  function ty(a){ return TL.t + (90-a)/180*(tlH-TL.t-TL.b); }
+  function buildBand(){
+    const off = document.createElement("canvas");
+    const ctx = setupCanvas(off, tlW, tlH);
+    const phi = state.lat*D2R, x0 = TL.l, x1 = tlW-TL.r, yH = ty(0);
+    ctx.font = "11px 'IBM Plex Mono', monospace"; ctx.fillStyle = "#8d9cb6"; ctx.textBaseline = "middle"; ctx.textAlign = "right";
+    for (const a of [90,45,0,-45,-90]){
+      const y = ty(a);
+      ctx.strokeStyle = a===0 ? "rgba(127,211,227,.6)" : "rgba(141,156,182,.13)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x0,y); ctx.lineTo(x1,y); ctx.stroke();
+      ctx.fillText((a>0?"+":a<0?"−":"")+Math.abs(a)+"°", x0-5, y);
+    }
+    // band
+    const steps = Math.max(200, Math.round(x1-x0));
+    const top = [], bot = [];
+    for (let i=0;i<=steps;i++){
+      const t = YEAR*i/steps, dd = decl(t);
+      top.push([tx(t), ty(maxAlt(phi,dd))]); bot.push([tx(t), ty(minAlt(phi,dd))]);
+    }
+    const path = () => { ctx.beginPath(); ctx.moveTo(top[0][0],top[0][1]); for (const p of top) ctx.lineTo(p[0],p[1]); for (let i=bot.length-1;i>=0;i--) ctx.lineTo(bot[i][0],bot[i][1]); ctx.closePath(); };
+    ctx.save(); ctx.beginPath(); ctx.rect(x0,0,x1-x0,yH); ctx.clip(); path(); ctx.fillStyle = "rgba(255,207,110,.55)"; ctx.fill(); ctx.restore();
+    ctx.save(); ctx.beginPath(); ctx.rect(x0,yH,x1-x0,tlH); ctx.clip(); path(); ctx.fillStyle = "rgba(110,130,210,.28)"; ctx.fill(); ctx.restore();
+    ctx.strokeStyle = "rgba(255,207,110,.9)"; ctx.lineWidth = 1.2; ctx.beginPath(); top.forEach((p,i)=> i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke();
+    ctx.strokeStyle = "rgba(160,175,240,.7)"; ctx.beginPath(); bot.forEach((p,i)=> i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.stroke();
+    // season markers
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.font = "11px 'IBM Plex Sans', sans-serif";
+    const ev = [[0,"Equinox"],[YEAR/4,"North-pole summer"],[YEAR/2,"Equinox"],[3*YEAR/4,"South-pole summer"]];
+    for (const [t,label] of ev){
+      const x = tx(t);
+      ctx.strokeStyle = "rgba(141,156,182,.35)"; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(x,TL.t-4); ctx.lineTo(x,tlH-TL.b); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = "#b6c3da";
+      ctx.textAlign = t===0 ? "left" : "center";
+      const short = tlW < 520 ? (label === "Equinox" ? "Eq." : label.replace("orth-pole","").replace("outh-pole","")) : label;
+      ctx.fillText(short, x, TL.t-8);
+    }
+    // year ticks
+    ctx.fillStyle = "#8d9cb6"; ctx.font = "11px 'IBM Plex Mono', monospace"; ctx.textBaseline = "top"; ctx.textAlign = "center";
+    const stepY = tlW < 520 ? 20 : 10;
+    for (let y=2010; y<=2090; y+=stepY){ const x = tx(y-EQ0); if (x < x0+10 || x > x1-10) continue; ctx.fillText(String(y), x, tlH-TL.b+5); }
+    // today marker
+    const xt = tx(mod(TODAY-EQ0,YEAR));
+    ctx.fillStyle = "#e7eef8"; ctx.beginPath(); ctx.moveTo(xt-4, tlH-TL.b); ctx.lineTo(xt+4, tlH-TL.b); ctx.lineTo(xt, tlH-TL.b-6); ctx.closePath(); ctx.fill();
+    bandCache = off; bandLat = state.lat;
+  }
+  function drawTimeline(){
+    if (!bandCache || bandLat !== state.lat) buildBand();
+    const ctx = tlCtx; ctx.clearRect(0,0,tlW,tlH);
+    ctx.drawImage(bandCache, 0, 0, tlW, tlH);
+    const x = tx(state.t), phi = state.lat*D2R, dd = decl(state.t);
+    ctx.strokeStyle = "#7fd3e3"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, TL.t-2); ctx.lineTo(x, tlH-TL.b); ctx.stroke();
+    for (const a of [maxAlt(phi,dd), minAlt(phi,dd)]){ ctx.fillStyle = "#e7eef8"; ctx.beginPath(); ctx.arc(x, ty(a), 3.5, 0, Math.PI*2); ctx.fill(); }
+  }
+
+  // ---------- readouts ----------
+  function stretch(test){
+    const step = 0.02; let a = 0, b = 0;
+    while (a < YEAR && test(state.t - a - step)) a += step;
+    while (b < YEAR && test(state.t + b + step)) b += step;
+    return [state.t - a, state.t + b];
+  }
+  function updateReadouts(sun){
+    const phi = state.lat*D2R, dec = decl(state.t);
+    const hi = maxAlt(phi,dec), lo = minAlt(phi,dec);
+    const chip = $("chip"), head = $("headline"), sub = $("subline");
+    const cal = EQ0 + state.t;
+    if (lo >= 0){
+      const [a,b] = stretch(t => minAlt(phi,decl(t)) >= 0);
+      chip.className = "chip day"; chip.textContent = "Midnight sun";
+      head.textContent = "The Sun never sets. It circles the sky between " + Math.round(lo) + "° and " + Math.round(hi) + "° up.";
+      sub.textContent = "Continuous daylight from about " + Math.round(EQ0+a) + " to " + Math.round(EQ0+b) + ", roughly " + Math.round(b-a) + " Earth years.";
+    } else if (hi < 0){
+      const [a,b] = stretch(t => maxAlt(phi,decl(t)) < 0);
+      chip.className = "chip night"; chip.textContent = "Polar night";
+      head.textContent = "The Sun never rises. It circles " + Math.round(-hi) + "° to " + Math.round(-lo) + "° below the horizon.";
+      sub.textContent = "Continuous night from about " + Math.round(EQ0+a) + " to " + Math.round(EQ0+b) + ", roughly " + Math.round(b-a) + " Earth years.";
+    } else {
+      const c = clamp(-Math.tan(phi)*Math.tan(dec), -1, 1);
+      const hrs = Math.acos(c)/Math.PI*DAY_H;
+      chip.className = "chip normal"; chip.textContent = "Day and night";
+      head.textContent = "Sunrise and sunset every 17 hours, with " + hrs.toFixed(1) + " hours of daylight.";
+      sub.textContent = "The Sun peaks " + Math.round(hi) + "° above the horizon. It rises in the west and sets in the east.";
+    }
+    $("rDate").textContent = fmtDate(cal);
+    const L = mod(360*state.t/YEAR, 360);
+    const seasons = ["North spring","North summer","North autumn","North winter"];
+    $("rSeason").textContent = seasons[Math.floor(L/90)];
+    $("rAlt").textContent = deg(sun.alt*R2D);
+    $("rRange").textContent = deg(hi,0) + " / " + deg(lo,0);
+    $("rDec").textContent = deg(dec*R2D);
+    $("yearOut").textContent = fmtDate(cal);
+    const cityBtn = document.querySelector('#cities button[data-lat="' + state.lat + '"]');
+    $("latOut").textContent = latName(state.lat) + (cityBtn ? " · like " + cityBtn.dataset.city : "");
+    document.querySelectorAll("#presets button, #cities button").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.lat === state.lat)));
+  }
+
+  // ---------- loop ----------
+  let last = performance.now(), lastUI = 0;
+  function frame(ts){
+    const dt = Math.min(0.05, (ts-last)/1000); last = ts;
+    if (state.playing){ state.t = mod(state.t + state.speed*dt, YEAR); yearIn.value = state.t.toFixed(2); }
+    if (state.spin) state.phase = mod(state.phase + dt/1.6, 1);
+    const phi = state.lat*D2R;
+    const sun = altaz(phi, decl(state.t), hourAngle(state.phase));
+    if (state.playing || state.spin){ state.trail.push({alt:sun.alt*R2D, az:sun.az}); if (state.trail.length > 700) state.trail.shift(); }
+    drawSky(); drawOrbit(); drawTimeline();
+    if (ts - lastUI > 120){ updateReadouts(sun); lastUI = ts; }
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- controls ----------
+  const playBtn = $("play");
+  function setPlaying(p){ state.playing = p; playBtn.textContent = p ? "❚❚ Pause" : "▶ Play the year"; }
+  playBtn.addEventListener("click", () => setPlaying(!state.playing));
+  $("speed").addEventListener("change", e => { state.speed = +e.target.value; });
+  $("today").addEventListener("click", () => { state.t = mod(TODAY-EQ0, YEAR); yearIn.value = state.t.toFixed(2); state.trail = []; });
+  yearIn.addEventListener("input", () => { state.t = +yearIn.value; state.trail = []; });
+  function setLat(v){ state.lat = v; latIn.value = v; state.trail = []; }
+  latIn.addEventListener("input", () => setLat(+latIn.value));
+  $("presets").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setLat(+b.dataset.lat); });
+  $("cities").addEventListener("click", e => { const b = e.target.closest("button"); if (b) setLat(+b.dataset.lat); });
+  spinIn.addEventListener("change", () => { state.spin = spinIn.checked; });
+
+  function scrub(e){
+    const r = tl.getBoundingClientRect();
+    const t = clamp((e.clientX - r.left - TL.l)/(r.width - TL.l - TL.r), 0, 1)*YEAR;
+    state.t = Math.min(t, YEAR-0.001); yearIn.value = state.t.toFixed(2); state.trail = [];
+  }
+  let dragging = false;
+  tl.addEventListener("pointerdown", e => { dragging = true; try{ tl.setPointerCapture(e.pointerId); }catch(_){} scrub(e); });
+  tl.addEventListener("pointermove", e => { if (dragging) scrub(e); });
+  tl.addEventListener("pointerup", () => { dragging = false; });
+  tl.addEventListener("pointercancel", () => { dragging = false; });
+
+  yearIn.value = state.t.toFixed(2); latIn.value = state.lat;
+  resize();
+  window.addEventListener("resize", resize);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { bandCache = null; });
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
