@@ -1,0 +1,43 @@
+# Items on the Curios page (/curios/), newest first.
+# Fields: title, year, blurb, url (where the card goes), image (in /assets/images/curios/, optional),
+# links (optional extra links: label + url).
+# No image? The card shows a plain text tile with `tile` (a few characters) instead.
+
+- title: A Year in the Sky of Uranus
+  year: 2026
+  blurb: Stand anywhere on a planet tipped on its side and watch the Sun spiral overhead for decades, then vanish for decades more.
+  url: /uranus/
+  image: uranus.jpg
+  links:
+    - label: write-up
+      url: /2026/uranus-sky/
+
+- title: "4680: Life Calendar"
+  year: 2026
+  blurb: Ninety years, one square per week. Set your birthdate, mark the chapters, and see how much of the page is filled in.
+  url: /4680/
+  image: 4680.jpg
+  links:
+    - label: write-up
+      url: /2026/4680-life-calendar/
+
+- title: Game Catalogue
+  year: 2019
+  blurb: Every game I own and whether I've actually finished it. The progress bar is not flattering.
+  url: /2019/game-catalogue/
+  image: game-catalogue.jpg
+
+- title: Farm Yield Dataset
+  year: 2018
+  blurb: Satellite spectral data matched to two years of real harvest data from an Illinois farm, built for a computer vision class.
+  url: /2018/computer-vision-farm-yield/
+  image: farm-yield.jpg
+  links:
+    - label: dataset
+      url: https://github.com/raulium/FarmYield-Dataset
+
+- title: NES Classic 2.0
+  year: 2017
+  blurb: Couldn't buy an NES Classic, so I built one out of a Raspberry Pi, RetroPie and a 3D-printed case.
+  url: /2017/project-complete-nes/
+  image: nes-classic.jpg

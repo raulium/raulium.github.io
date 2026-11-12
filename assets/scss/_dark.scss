@@ -318,6 +318,42 @@ $dark-blue: #3fa9d6;            /* same blue, lifted so it reads on a dark backg
     color: $dark-bg;
   }
 
+  /* ---------- Curios page ---------- */
+
+  .curio {
+    background-color: $dark-surface;
+    border-color: $dark-border;
+
+    &:hover {
+      box-shadow: 0 6px 18px rgba(#000, .5);
+    }
+  }
+
+  .curios .curio-thumb {
+    background-color: $dark-surface-2;
+    border-bottom-color: $dark-border;
+
+    &:hover,
+    &:focus,
+    &:active {
+      border-bottom-color: $dark-border;
+    }
+  }
+
+  .curios .curio-title a {
+    color: $dark-strong-text;
+  }
+
+  .curios-subtitle,
+  .curio-tile,
+  .curio-meta {
+    color: $dark-muted;
+  }
+
+  .curio-meta a {
+    color: $dark-blue;
+  }
+
   /* ---------- small screens: posts become cards ---------- */
 
   @media (max-width: 600px) {
