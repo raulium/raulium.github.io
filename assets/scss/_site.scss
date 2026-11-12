@@ -33,6 +33,14 @@ a {
 
 img { max-width: 100%; height: auto; }
 
+/* No visible scroll bar: the rail on the left does that job. Scrolling still works. */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar { display: none; }
+
+
 .wrap {
   max-width: $max;
   margin: 0 auto;

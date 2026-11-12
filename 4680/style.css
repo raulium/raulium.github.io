@@ -238,3 +238,7 @@ table {
     color: #f0f0f0;
   }
 }
+
+/* No visible scroll bar, to match harnasch.com. */
+html{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar{display:none}
