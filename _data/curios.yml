@@ -31,7 +31,7 @@
   year: 2018
   blurb: Satellite spectral data matched to two years of real harvest data from an Illinois farm, built for a computer vision class.
   url: /2018/computer-vision-farm-yield/
-  tile: "corn / soy"
+  image: farm-yield.jpg
   links:
     - label: dataset
       url: https://github.com/raulium/FarmYield-Dataset
