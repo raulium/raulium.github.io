@@ -1,7 +1,7 @@
 # Site settings
 title_left    : "Raul"
 title_right   : "Harnasch" # default: ""
-description   : "Home Automation, Programming & Random Segues"
+description   : "Where I wander off the sidewalk"
 keywords      : ""
 url           : https://harnasch.com
 baseurl       : "" # apply repo name like "/myproject" if used under gh-pages branch, else (under master branch) just leave empty/blank
