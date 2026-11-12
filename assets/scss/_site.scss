@@ -1,0 +1,459 @@
+/* ---------- base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: 100%;           /* Bootstrap (game catalogue page only) sets 10px; undo it */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: $paper;
+  color: $ink;
+  font-family: $sans;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  font-variant-ligatures: none;
+}
+
+a {
+  color: $ink;
+  text-decoration: none;
+  transition: color .15s ease;
+
+  &:hover, &:focus { color: $accent; }
+}
+
+:focus-visible {
+  outline: 2px solid $accent;
+  outline-offset: 3px;
+}
+
+img { max-width: 100%; height: auto; }
+
+.wrap {
+  max-width: $max;
+  margin: 0 auto;
+  padding: 0 $gutter-r 0 $gutter;
+}
+
+/* Small monospace labels: the catalog's voice. */
+.label,
+.card-label,
+.section-head h2,
+.site-nav,
+.site-footer,
+.record,
+.adjacent,
+.index-table th,
+.index-table .num,
+.curio-links {
+  font-family: $mono;
+  letter-spacing: .06em;
+}
+
+.label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0 0 20px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: $muted;
+}
+
+.new { color: $accent; white-space: nowrap; }
+.card-title .new,
+.index-table .new {
+  margin-left: 12px;
+  font-family: $mono;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+
+/* ---------- the rail (fixed; drawn by site.js) ---------- */
+
+.rail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.rail-track { fill: none; stroke: $track; stroke-width: 1; }
+.rail-line  { fill: none; stroke: $accent; stroke-width: 3; stroke-linecap: round; }
+
+@keyframes rail-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+.is-home .rail-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: rail-draw 2.8s cubic-bezier(.45, 0, .2, 1) .5s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-home .rail-line { animation: none; stroke-dashoffset: 0; }
+}
+
+/* ---------- dot grid that fades at the edges ---------- */
+
+.dots,
+.band::before {
+  background-image: radial-gradient(circle, $dot 1.2px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 46%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 62% 58% at 50% 46%, #000 35%, transparent 100%);
+}
+
+.band {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -$gutter;
+    right: -$gutter-r;
+    z-index: -1;
+  }
+}
+
+/* ---------- home: landing zone ---------- */
+
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  max-height: 1000px;
+  min-height: 480px;
+  overflow: hidden;
+
+  .dots { position: absolute; inset: 0; }
+}
+
+/* Sits just above where the path starts (26% from the right, 30% down); site.js uses the same numbers. */
+.hero-words {
+  position: absolute;
+  right: 26%;
+  bottom: 70%;
+  margin: 0 0 24px;
+  max-width: unquote("min(823px, 66vw)");
+  text-align: right;
+  font-size: clamp(30px, 4.2vw, 54px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+
+/* ---------- header and footer ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 36px 0 20px;
+  border-bottom: 1px solid $ink;
+}
+
+.site-name {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: .02em;
+}
+
+.site-nav {
+  display: flex;
+  gap: 28px;
+  font-size: 13px;
+  text-transform: uppercase;
+
+  a[aria-current] { color: $accent; }
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0 40px;
+  border-top: 1px solid $ink;
+  font-size: 12px;
+  color: $muted;
+
+  a { color: $accent; }
+}
+
+/* ---------- intro (home, curios) ---------- */
+
+.intro {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  padding: 96px 0 88px;
+
+  h1 {
+    margin: 0;
+    font-size: 54px;
+    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+}
+
+.intro-main { grid-column: 1 / span 7; }
+
+.intro-side {
+  grid-column: 9 / span 4;
+  align-self: end;
+  margin: 0;
+  font-size: 18px;
+  color: $ink-3;
+}
+
+/* ---------- section heads ---------- */
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $ink;
+
+  h2 {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  a { font-family: $mono; font-size: 12px; letter-spacing: .04em; color: $accent; }
+}
+
+/* ---------- recent acquisitions + curios cards ---------- */
+
+.shelf { padding-bottom: 88px; }
+
+.shelf .section-head { margin-bottom: 28px; }
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    filter: saturate(.85);
+  }
+}
+
+.card-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin: 0;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: $muted;
+
+  > span:last-child { display: flex; gap: 12px; }
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.cabinet {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 56px 32px;
+  padding-bottom: 96px;
+}
+
+.curio {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  .card-label {
+    border-top: 1px solid $ink;
+    padding-top: 10px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+}
+
+.curio-mount {
+  display: block;
+  padding: 14px;
+  background: $paper-2;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    filter: saturate(.85);
+  }
+}
+
+.curio-blurb { margin: 0; font-size: 16px; color: $ink-3; }
+
+.curio-links {
+  margin: 0;
+  font-size: 12px;
+
+  a { color: $accent; }
+}
+
+/* ---------- index table ---------- */
+
+.index { padding-bottom: 40px; }
+
+.table-scroll { overflow-x: auto; }
+
+.index-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 17px;
+
+  th {
+    padding: 12px 0;
+    font-size: 11px;
+    font-weight: 400;
+    text-align: left;
+    text-transform: uppercase;
+    color: $muted;
+
+    &:first-child { width: 80px; }
+    &:nth-child(3) { width: 140px; }
+    &:last-child { width: 110px; text-align: right; }
+  }
+
+  td {
+    padding: 12px 0;
+    border-top: 1px solid $rule;
+  }
+
+  tr:last-child td { border-bottom: 1px solid $rule; }
+
+  .num { font-size: 13px; color: $muted; }
+  .kind { color: $muted; }
+  .filed { text-align: right; }
+}
+
+/* ---------- entries (posts and pages) ---------- */
+
+.entry-head {
+  padding: 88px 0 56px;
+
+  h1 {
+    margin: 0;
+    max-width: 820px;
+    font-size: 56px;
+    line-height: 1.04;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+}
+
+.entry-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 56px;
+  padding: 8px 0 96px;
+}
+
+.record {
+  flex: 1 1 200px;
+  max-width: 240px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: $muted;
+
+  dl {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    row-gap: 10px;
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid $ink;
+  }
+
+  dt { font-weight: 400; }
+  dd { margin: 0; color: $ink; }
+  a { color: $accent; }
+}
+
+.entry-body .prose {
+  flex: 999 1 560px;
+  min-width: 0;
+  max-width: 680px;
+}
+
+.entry-body--page .prose { margin-left: 296px; }
+
+.adjacent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 56px;
+  padding-top: 16px;
+  border-top: 1px solid $ink;
+  font-size: 12px;
+
+  a { color: $accent; }
+}
+
+/* ---------- smaller screens ---------- */
+
+@media (max-width: 1000px) {
+  .entry-body--page .prose { margin-left: 0; }
+  .intro-main { grid-column: 1 / span 12; }
+  .intro-side { grid-column: 1 / span 9; margin-top: 28px; }
+}
+
+@media (max-width: $phone) {
+  body { font-size: 16px; }
+  .wrap { padding: 0 20px 0 44px; }
+  .band::before { left: -44px; right: -20px; }
+  .site-nav { gap: 18px; }
+  .intro { padding: 64px 0 56px; }
+  .intro h1 { font-size: 38px; }
+  .intro-side { grid-column: 1 / span 12; }
+  .entry-head { padding: 56px 0 36px; }
+  .entry-head h1 { font-size: 38px; }
+  .shelf-grid { grid-template-columns: 1fr; }
+  .record { max-width: none; }
+  .hero-words { right: 8%; max-width: 84vw; }
+}

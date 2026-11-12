@@ -4,6 +4,7 @@ title:  "NES Classic Disappointment"
 date:   2017-10-22
 categories: diy
 tags:	Raspberry Pi, RetroPie, gaming
+kind: Note
 ---
 ## It started at 7 AM
 

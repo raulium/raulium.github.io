@@ -4,6 +4,7 @@ title:  "Farm Yield Dataset"
 date:   2018-05-03
 categories: data, programming
 tags:	data mining, python, computer vision
+kind: Note
 ---
 ### The Project:
 You can find the [FarmYield Dataset](https://github.com/raulium/FarmYield-Dataset) on github, or you can clone it directly:

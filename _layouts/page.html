@@ -1,12 +1,14 @@
 ---
 layout: default
 ---
-
-<article class="page container">
-  <header class="page-header">
-    <h1 class="page-title">{{ page.title }}</h1>
+<article class="entry">
+  <header class="entry-head band">
+    {% if page.label %}<p class="label"><span>{{ page.label }}</span></p>{% endif %}
+    <h1>{{ page.title }}</h1>
   </header>
-  <div class="page-content">
-    {{ content }}
+  <div class="entry-body entry-body--page">
+    <div class="prose">
+      {{ content }}
+    </div>
   </div>
 </article>

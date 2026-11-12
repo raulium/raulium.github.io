@@ -4,6 +4,7 @@ title:  "A Year in the Sky of Uranus"
 date:   2026-11-11
 categories: projects
 tags: javascript, visualization, astronomy
+kind: Note
 ---
 
 **[Open the simulator &rarr;]({{ site.baseurl }}/uranus/)**

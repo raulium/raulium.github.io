@@ -1,16 +1,36 @@
 ---
 layout: default
 ---
-
-<article class="post container" itemscope itemtype="http://schema.org/BlogPosting">
-  <header class="post-header">
-    <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} &middot; <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
+{% assign chrono = site.posts | reverse %}{% assign num = 0 %}{% for p in chrono %}{% if p.url == page.url %}{% assign num = forloop.index %}{% endif %}{% endfor %}
+{% capture numstr %}00{{ num }}{% endcapture %}{% assign numstr = numstr | slice: -3, 3 %}
+{% assign words = content | strip_html | number_of_words %}{% assign minutes = words | divided_by: 220 | plus: 1 %}
+{% assign object = nil %}{% assign total = site.data.curios | size %}
+{% for c in site.data.curios %}{% for l in c.links %}{% if l.url == page.url %}{% assign object = c %}{% assign objnum = total | minus: forloop.parentloop.index0 %}{% endif %}{% endfor %}{% endfor %}
+<article class="entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="entry-head band">
+    <p class="label">
+      <span>Nº {{ numstr }}</span>
+      <span>{{ page.kind | default: "Note" }}</span>
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%-d %b %Y" }}</time>
+      {% if page.url == site.posts.first.url %}<span class="new" data-new-date="{{ page.date | date: '%Y-%m-%d' }}" hidden>&#9679; New</span>{% endif %}
+    </p>
+    <h1 itemprop="name headline">{{ page.title }}</h1>
   </header>
-  <div class="post-content" itemprop="articleBody">
-    {{ content }}
-    {% include post-share.html %}
+  <div class="entry-body">
+    <aside class="record" aria-label="Catalog record">
+      <dl>
+        <dt>Kind</dt><dd>{{ page.kind | default: "Note" }}</dd>
+        {% if page.categories.size > 0 %}<dt>Filed under</dt><dd>{{ page.categories | join: ", " | replace: "_", " " | capitalize }}</dd>{% endif %}
+        {% if object %}<dt>Object</dt><dd><a href="{{ site.baseurl }}{{ object.url }}">C&middot;{% if objnum < 10 %}0{% endif %}{{ objnum }} {{ object.action | default: "Open" }} &rarr;</a></dd>{% endif %}
+        <dt>Reading</dt><dd>{{ minutes }} min</dd>
+      </dl>
+    </aside>
+    <div class="prose" itemprop="articleBody">
+      {{ content }}
+      <nav class="adjacent" aria-label="Adjacent entries">
+        {% if page.previous %}<a href="{{ page.previous.url | prepend: site.baseurl }}">&larr; {{ page.previous.title }}</a>{% else %}<span></span>{% endif %}
+        <a href="{{ site.baseurl }}/#index">Back to the index</a>
+      </nav>
+    </div>
   </div>
 </article>
-
-{% include comments.html %}

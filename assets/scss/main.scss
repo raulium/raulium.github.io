@@ -1,10 +1,5 @@
-
-@import "bourbon/bourbon";
-
-@import "variables";
-@import "base/base";
-
-@import "layout";
+@import "tokens";
+@import "site";
+@import "prose";
 @import "syntax-highlighting";
-@import "curios";
 @import "dark";

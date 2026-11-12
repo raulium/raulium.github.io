@@ -1,136 +1,59 @@
-/**
-* Dark mode.
-* Follows the visitor's system/browser setting (prefers-color-scheme), a CSS standard
-* supported by all current browsers. Light mode is the unchanged default above; this
-* file only overrides colors when the browser asks for dark.
-*/
+/* Dark mode: follows the visitor's system setting. Colors only. */
 
-$dark-bg: #141414;
-$dark-surface: #1f1f1f;         /* code, blockquotes, author tag, mobile post cards */
-$dark-surface-2: #262626;       /* inline code, hover rows */
-$dark-border: #333;
-$dark-border-strong: #4a4a4a;
-$dark-text: #d0d0d0;
-$dark-strong-text: #ececec;     /* headings, links that are black in light mode */
-$dark-muted: #8c8c8c;
-$dark-blue: #3fa9d6;            /* same blue, lifted so it reads on a dark background */
-
-:root {
-  color-scheme: light dark;
-}
+:root { color-scheme: light dark; }
 
 @media (prefers-color-scheme: dark) {
+  body { background: $d-paper; color: $d-ink; }
 
-  /* ---------- base ---------- */
+  a { color: $d-ink; &:hover, &:focus { color: $d-accent; } }
+  :focus-visible { outline-color: $d-accent; }
 
-  body {
-    background-color: $dark-bg;
-    color: $dark-text;
-  }
+  .label, .card-label, .index-table th, .index-table .num, .index-table .kind,
+  .site-footer, .record, .curio-blurb { color: $d-muted; }
+  .new, .site-nav a[aria-current], .section-head a, .site-footer a, .record a,
+  .curio-links a, .adjacent a { color: $d-accent; }
 
-  h1, h2, h3, h4, h5, h6,
-  .post-title,
-  strong {
-    color: $dark-strong-text;
-  }
+  .intro-side { color: $d-ink-3; }
+  .record dd { color: $d-ink; }
 
-  a,
-  .post-item a {
-    color: $dark-strong-text;
+  .site-header, .section-head, .site-footer, .record dl, .adjacent, .curio .card-label { border-color: $d-rule-strong; }
+  .index-table td { border-color: $d-rule; }
+  .index-table tr:last-child td { border-bottom-color: $d-rule; }
 
-    &:active,
-    &:focus,
-    &:hover {
-      color: #fff;
+  .dots, .band::before { background-image: radial-gradient(circle, $d-dot 1.2px, transparent 1.5px); }
+
+  .rail-track { stroke: $d-track; }
+  .rail-line { stroke: $d-accent; }
+
+  .card img, .curio-mount img { filter: saturate(.85) brightness(.92); }
+  .curio-mount { background: $d-paper-2; }
+
+  /* ---- long-form text ---- */
+  .prose {
+    color: $d-ink-2;
+
+    h2, h3, h4, h5, h6, strong, b, blockquote { color: $d-ink; }
+    a { color: $d-accent; &:hover { color: $d-ink; } }
+    blockquote { border-left-color: $d-accent; }
+    hr, th, td { border-color: $d-rule; }
+    th { color: $d-muted; border-bottom-color: $d-ink; }
+    code { background: $d-paper-2; }
+    pre code { background: none; }
+
+    /* Charts saved with transparent backgrounds have black axis text; give images a white backing. */
+    img { background-color: #fff; }
+
+    /* Styled pandas tables highlight cells in orange; keep them on a light card. */
+    table[id^="T_"] {
+      background-color: #fff;
+      th, td { color: #333; border-color: #ccc; }
     }
   }
 
-  .link,
-  .post-link,
-  .post a,
-  .page a,
-  .intro a,
-  .navbar a,
-  .site-footer a,
-  .pagination .prev,
-  .pagination .next {
-    color: $dark-blue;
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: $dark-blue;
-      border-bottom-color: $dark-blue;
-    }
-  }
-
-  hr {
-    border-bottom-color: $dark-border;
-  }
-
-  .site-header {
-    border-bottom-color: $dark-border;
-  }
-
-  .intro .author-name {
-    background: $dark-surface;
-  }
-
-  .post-meta,
-  .share p {
-    color: $dark-muted;
-  }
-
-  .site-footer small {
-    color: darken($dark-muted, 6%);
-  }
-
-  .share,
-  .divider {
-    border-top-color: $dark-border;
-  }
-
-  .disqus {
-    background-color: $dark-surface;
-  }
-
-  blockquote {
-    color: $dark-text;
-    border-left-color: $dark-border-strong;
-    background-color: $dark-surface;
-  }
-
-  /* Charts saved with transparent backgrounds have black axis text; give images a white backing. */
-  .post img,
-  .page img {
-    background-color: #fff;
-  }
-
-  /* ---------- code ---------- */
-
-  code {
-    color: $dark-strong-text;
-    background-color: $dark-surface-2;
-  }
-
-  pre {
-    color: $dark-text;
-    background-color: $dark-surface;
-    border-color: $dark-border;
-  }
-
+  /* ---- code ---- */
   .highlight {
-    box-shadow: 0 0 2px rgba(#fff, .08);
-
-    .highlighter-rouge &, &, .hll, pre, code {
-      background-color: $dark-surface !important;
-    }
-
-    pre {
-      &, code {
-        color: $dark-text;
-      }
-    }
+    .highlighter-rouge &, &, .hll, pre, code { background-color: $d-paper-2 !important; }
+    pre { &, code { color: $d-ink-2; } }
 
     .c, .cm, .c1 { color: #8b949e; }
     .cp, .cs     { color: #8b949e; }
@@ -148,76 +71,15 @@ $dark-blue: #3fa9d6;            /* same blue, lifted so it reads on a dark backg
     .sr          { color: #7ee787; }
     .ss          { color: #d2a8ff; }
     .na, .no, .nv, .vc, .vg, .vi { color: #79c0ff; }
-    .nb          { color: $dark-blue; }
+    .nb          { color: #e0a070; }
     .ni          { color: #d2a8ff; }
     .ne, .nf     { color: #d2a8ff; }
     .nt          { color: #7ee787; }
   }
 
-  /* ---------- forms and buttons ---------- */
-
-  fieldset {
-    background-color: $dark-surface;
-    border-color: $dark-border;
-  }
-
-  #{$all-text-inputs},
-  select,
-  select[multiple=multiple],
-  .form-control {
-    background-color: $dark-surface;
-    color: $dark-text;
-    border-color: $dark-border-strong;
-
-    &:hover {
-      border-color: lighten($dark-border-strong, 10%);
-    }
-
-    &:focus {
-      border-color: $dark-blue;
-    }
-
-    &:disabled {
-      background-color: $dark-bg;
-    }
-  }
-
-  .button {
-    background-color: $dark-strong-text;
-    color: $dark-bg;
-
-    &:hover,
-    &:focus {
-      background-color: #fff;
-      color: $dark-bg;
-    }
-  }
-
-  /* ---------- tables (site + Bootstrap 3 + bootstrap-table) ---------- */
-
-  th,
-  td,
-  .table > thead > tr > th,
-  .table > tbody > tr > th,
-  .table > tbody > tr > td,
-  .table-bordered,
-  .table-bordered > thead > tr > th,
-  .table-bordered > tbody > tr > td {
-    border-color: $dark-border;
-  }
-
-  th,
-  .table > thead > tr > th {
-    border-bottom-color: $dark-border-strong;
-  }
-
-  .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #191919;
-  }
-
-  .table-hover > tbody > tr:hover {
-    background-color: $dark-surface-2;
-  }
+  /* ---- Bootstrap pieces (game catalogue page) ---- */
+  .progress { background-color: $d-paper-2; }
+  .table > thead > tr > th, .table > tbody > tr > td, .table > tbody > tr > th { border-color: $d-rule; }
 
   /* bootstrap-table's stylesheet loads later in the page, so these need extra specificity (html body). */
   html body .bootstrap-table .fixed-table-container,
@@ -228,146 +90,9 @@ $dark-blue: #3fa9d6;            /* same blue, lifted so it reads on a dark backg
   html body .bootstrap-table .fixed-table-container .table tbody td,
   html body .bootstrap-table .fixed-table-container .fixed-table-header,
   html body .bootstrap-table .fixed-table-container .fixed-table-body {
-    border-color: $dark-border;
+    border-color: $d-rule;
     background-color: transparent;
   }
-
-  /* Its header-cell rule is more specific still. */
-  html body .bootstrap-table .table thead th {
-    border-bottom-color: $dark-border-strong !important;
-  }
-
-  .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading {
-    background-color: $dark-bg;
-    color: $dark-text;
-  }
-
-  /* pandas tables in the crime analysis post */
-  .dataframe {
-    border-color: $dark-border;
-  }
-
-  /* Styled pandas tables highlight cells in orange; keep them on a light card like the charts
-     so the highlighted cells stay readable. */
-  table[id^="T_"] {
-    background-color: #fff;
-
-    th, td {
-      color: #333;
-      border-color: #ccc;
-    }
-  }
-
-  /* ---------- other Bootstrap pieces ---------- */
-
-  .progress {
-    background-color: $dark-surface-2;
-  }
-
-  .btn-default {
-    background-color: $dark-surface;
-    border-color: $dark-border-strong;
-    color: $dark-text;
-
-    &:hover,
-    &:focus,
-    &:active,
-    &.active,
-    .open > &.dropdown-toggle {
-      background-color: $dark-surface-2;
-      border-color: lighten($dark-border-strong, 10%);
-      color: $dark-strong-text;
-    }
-  }
-
-  .dropdown-menu {
-    background-color: $dark-surface;
-    border-color: $dark-border-strong;
-
-    > li > a,
-    > li > label {
-      color: $dark-text;
-    }
-
-    > li > a:hover,
-    > li > a:focus {
-      background-color: $dark-surface-2;
-      color: $dark-strong-text;
-    }
-  }
-
-  .pagination > li > a,
-  .pagination > li > span {
-    background-color: $dark-surface;
-    border-color: $dark-border;
-    color: $dark-blue;
-  }
-
-  .pagination > li > a:hover,
-  .pagination > li > span:hover {
-    background-color: $dark-surface-2;
-    border-color: $dark-border;
-  }
-
-  .pagination > .active > a,
-  .pagination > .active > span,
-  .pagination > .active > a:hover,
-  .pagination > .active > span:hover {
-    background-color: $dark-blue;
-    border-color: $dark-blue;
-    color: $dark-bg;
-  }
-
-  /* ---------- Curios page ---------- */
-
-  .curio {
-    background-color: $dark-surface;
-    border-color: $dark-border;
-
-    &:hover {
-      box-shadow: 0 6px 18px rgba(#000, .5);
-    }
-  }
-
-  .curios .curio-thumb {
-    background-color: $dark-surface-2;
-    border-bottom-color: $dark-border;
-
-    &:hover,
-    &:focus,
-    &:active {
-      border-bottom-color: $dark-border;
-    }
-  }
-
-  .curios .curio-title a {
-    color: $dark-strong-text;
-  }
-
-  .curios-subtitle,
-  .curio-tile,
-  .curio-meta {
-    color: $dark-muted;
-  }
-
-  .curio-meta a {
-    color: $dark-blue;
-  }
-
-  /* ---------- small screens: posts become cards ---------- */
-
-  @media (max-width: 600px) {
-    .post-item {
-      border-color: $dark-border;
-      background: $dark-surface;
-    }
-
-    .post-link {
-      &:hover,
-      &:focus,
-      &:active {
-        color: $dark-blue;
-      }
-    }
-  }
+  html body .bootstrap-table .table thead th { border-bottom-color: $d-ink !important; }
+  .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading { background-color: $d-paper; color: $d-ink; }
 }

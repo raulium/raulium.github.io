@@ -1,36 +1,28 @@
-/**
-* Syntax highlighting styles
-*/
+/* Syntax highlighting (rouge). Dark-mode colors are in _dark.scss. */
 .highlight {
-  margin: $base-spacing 0;
-  padding: 0;
-  box-shadow: 0px 0px 2px rgba($black-color, .1);
+  margin: 1.4em 0;
+  background-color: $paper-2;
 
   .highlighter-rouge &, &, .hll, pre, code {
-    background-color: lighten($light-gray-color, 15%) !important;
+    background-color: $paper-2 !important;
   }
 
   pre {
     margin: 0;
-    padding: $base-spacing;
+    padding: 18px 20px;
     white-space: pre;
-    line-height: 23px;
+    line-height: 1.6;
     overflow-x: auto;
-    margin-bottom: 0;
     word-break: inherit;
     word-wrap: inherit;
 
     &, code {
-      color: $base-font-color;
+      color: $ink;
     }
 
     code {
       white-space: pre;
       padding: 0 !important;
-
-      * {
-        white-space: nowrap; // this sets all children inside to nowrap
-      }
     }
   }
 

@@ -3,6 +3,8 @@ layout: post
 title:  "Game Catalogue Progress"
 date:   2019-12-26
 categories: gaming
+kind: Ledger
+bootstrap: true
 ---
 
 ## Progress

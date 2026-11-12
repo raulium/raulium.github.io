@@ -1,3 +1,8 @@
 <header class="site-header">
-  {% include nav.html %}
+  <a class="site-name" href="{{ site.baseurl }}/">{{ site.author.name }}</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="{{ site.baseurl }}/#index"{% if page.url == "/" %} aria-current="page"{% endif %}>Index</a>
+    <a href="{{ site.baseurl }}/curios/"{% if page.url == "/curios/" %} aria-current="page"{% endif %}>Curios</a>
+    <a href="{{ site.baseurl }}/about/"{% if page.url == "/about/" %} aria-current="page"{% endif %}>About</a>
+  </nav>
 </header>

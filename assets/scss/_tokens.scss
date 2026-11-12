@@ -1,0 +1,32 @@
+/* The Catalog: design tokens. */
+$paper: #F4F1EA;
+$paper-2: #E9E4D9;          /* mounts, code blocks */
+$ink: #1B1A17;
+$ink-2: #2A2824;            /* body text */
+$ink-3: #3B3833;            /* secondary text */
+$muted: #5E594F;            /* labels; 6:1 on paper */
+$rule: #D9D3C6;
+$dot: #C9C1B2;
+$track: #B9B1A2;
+$accent: #A4471F;           /* burnt orange; 5:1 on paper */
+
+/* dark */
+$d-paper: #161512;
+$d-paper-2: #221F1B;
+$d-ink: #ECE6DA;
+$d-ink-2: #D6D0C4;
+$d-ink-3: #BFB8AB;
+$d-muted: #9C9587;
+$d-rule: #36322B;
+$d-rule-strong: #ECE6DA;
+$d-dot: #3A362F;
+$d-track: #4A453C;
+$d-accent: #E0773F;
+
+$sans: 'Jost', 'Futura', 'Century Gothic', 'Trebuchet MS', sans-serif;
+$mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+
+$gutter: 96px;              /* left padding: room for the rail */
+$gutter-r: 56px;
+$max: 1120px;
+$phone: 700px;

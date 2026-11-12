@@ -1,43 +1,58 @@
-# Items on the Curios page (/curios/), newest first.
-# Fields: title, year, blurb, url (where the card goes), image (in /assets/images/curios/, optional),
-# links (optional extra links: label + url).
-# No image? The card shows a plain text tile with `tile` (a few characters) instead.
+# Items on the Curios page (/curios/), newest first. Numbers (C·01…) are assigned automatically, oldest = 01.
+# Fields: title, date (YYYY-MM-DD; drives the year and the 7-day "New" marker), kind, blurb,
+#   url (where the card goes), action ("Open" for a tool, "Read" for a post),
+#   image (in /assets/images/curios/, 800×500), links (optional extra links: label + url).
 
 - title: A Year in the Sky of Uranus
-  year: 2026
+  date: 2026-11-11
+  kind: Simulation
   blurb: Stand anywhere on a planet tipped on its side and watch the Sun spiral overhead for decades, then vanish for decades more.
   url: /uranus/
+  action: Open
   image: uranus.jpg
+  alt: Fisheye view of the sky above Uranus with the Sun's daily path
   links:
-    - label: write-up
+    - label: Write-up
       url: /2026/uranus-sky/
 
 - title: "4680: Life Calendar"
-  year: 2026
+  date: 2026-11-10
+  kind: Tool
   blurb: Ninety years, one square per week. Set your birthdate, mark the chapters, and see how much of the page is filled in.
   url: /4680/
+  action: Open
   image: 4680.jpg
+  alt: A grid of small squares, one per week of a life, colored by chapter
   links:
-    - label: write-up
+    - label: Write-up
       url: /2026/4680-life-calendar/
 
 - title: Game Catalogue
-  year: 2019
+  date: 2019-12-26
+  kind: Ledger
   blurb: Every game I own and whether I've actually finished it. The progress bar is not flattering.
   url: /2019/game-catalogue/
+  action: Read
   image: game-catalogue.jpg
+  alt: A progress bar and a table of games with their completion status
 
 - title: Farm Yield Dataset
-  year: 2018
+  date: 2018-05-03
+  kind: Dataset
   blurb: Satellite spectral data matched to two years of real harvest data from an Illinois farm, built for a computer vision class.
   url: /2018/computer-vision-farm-yield/
+  action: Read
   image: farm-yield.jpg
+  alt: Histogram of corn and soybean yields from harvest data
   links:
-    - label: dataset
+    - label: Dataset
       url: https://github.com/raulium/FarmYield-Dataset
 
 - title: NES Classic 2.0
-  year: 2017
+  date: 2017-11-06
+  kind: Build
   blurb: Couldn't buy an NES Classic, so I built one out of a Raspberry Pi, RetroPie and a 3D-printed case.
   url: /2017/project-complete-nes/
+  action: Read
   image: nes-classic.jpg
+  alt: A homemade NES-style case on a granite counter
